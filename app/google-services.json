@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "2870034644",
+    "firebase_url": "https://gitamfeed-fb2d6.firebaseio.com",
+    "project_id": "gitamfeed-fb2d6",
+    "storage_bucket": "gitamfeed-fb2d6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:2870034644:android:da175a41fc2dfc1b",
+        "android_client_info": {
+          "package_name": "com.example.sudhaseshu.gitamfeed"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "2870034644-1gblqt9bjsfvcngn99d5fiotio2foo31.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sudhaseshu.gitamfeed",
+            "certificate_hash": "be26dfc4f922e912bbc1e5fe7b5beb342ce32283"
+          }
+        },
+        {
+          "client_id": "2870034644-sb58g5b11jemongte7047o6a8nguq9sn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6nL3begSuzJP3Yc36SXb96IXGdGBqvZ0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "2870034644-sb58g5b11jemongte7047o6a8nguq9sn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
