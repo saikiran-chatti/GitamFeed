@@ -23,8 +23,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
@@ -83,6 +81,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void signIn() {
+        Log.i("app","Reached Signin()");
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, 123);
     }
@@ -94,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()){
                 GoogleSignInAccount account = result.getSignInAccount();
-                    firebaseAuthWithGoogle(account);
+                firebaseAuthWithGoogle(account);
             }
             else{
                 Toast.makeText(getApplicationContext(),"Wrong with the details:(",Toast.LENGTH_SHORT).show();

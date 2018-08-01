@@ -4,7 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,28 +13,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.HashMap;
-
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,12 +50,14 @@ public class Discussion extends Fragment {
     private String mTime,mDate,mData;
     private RecyclerView recyclerView;
 
+    PostItemsAdapter adapter;
     StorageReference reference;
-    DatabaseReference databaseReference;
-    DatabaseReference posts;
+    private List<PostItems> postItemsList;
+
     FirebaseAuth mAuth;
     private OnFragmentInteractionListener mListener;
-    private DatabaseReference postRef;
+    FirebaseFirestore db;
+    private LinearLayoutManager mLayoutManager;
 
     public Discussion() {
         // Required empty public constructor
@@ -95,6 +90,7 @@ public class Discussion extends Fragment {
         }
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -103,18 +99,28 @@ public class Discussion extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
 
-        reference = FirebaseStorage.getInstance().getReference();
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Users");
-        posts = FirebaseDatabase.getInstance().getReference().child("Posts").child(mAuth.getUid());
-        postRef = FirebaseDatabase.getInstance().getReference().child("Posts");
+        db = FirebaseFirestore.getInstance();
 
-        recyclerView = view.findViewById(R.id.recycler_view);
+        reference = FirebaseStorage.getInstance().getReference();
+
+        postItemsList = new ArrayList<>();
+        recyclerView = view.findViewById(R.id.recycler_view2);
+
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mLayoutManager.setReverseLayout(true);
+        mLayoutManager.setStackFromEnd(true);
+
+        recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setHasFixedSize(true);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        layoutManager.setReverseLayout(true);
-        layoutManager.setStackFromEnd(true);
-        recyclerView.setLayoutManager(layoutManager);
+        adapter = new PostItemsAdapter(getActivity(),postItemsList);
+
+        recyclerView.setAdapter(adapter);
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+//        layoutManager.setReverseLayout(true);
+//        layoutManager.setStackFromEnd(true);
+        //recyclerView.setLayoutManager(layoutManager);
+
 
         FloatingActionButton add = view.findViewById(R.id.floatingActionButton);
         add.setOnClickListener(new View.OnClickListener() {
@@ -124,171 +130,71 @@ public class Discussion extends Fragment {
             }
         });
 
-        storeToFirebase("post");
-        displayAllPosts();
 
+
+        //addPost("data");
+        displayPosts();
         return view;
+
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
 
-    private void storeToFirebase(String post) {
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMMM-yyyy");
-        mDate = dateFormat.format(calendar.getTime());
+    private void displayPosts(){
 
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH-mm");
-        mTime = timeFormat.format(calendar.getTime());
+        db.collection("Posts").get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
-        Log.i("app",mDate+mTime);
+                        Toast.makeText(getContext(),"sucess",Toast.LENGTH_SHORT).show();
+                        Log.i("app","sucess");
 
-        String filename ="1215316609";
-        StorageReference filepath = reference.child("Discussions").child(filename+".txt");
-        mData = "1234567";
+                        if (!queryDocumentSnapshots.isEmpty()) {
 
-        filepath.putBytes(mData.getBytes()).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                            List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
+
+                            for (DocumentSnapshot d : list) {
+                                PostItems p = d.toObject(PostItems.class);
+                                Log.i("app","sucess"+p.getPost_content());
+                                p.setId(d.getId());
+                                postItemsList.add(p);
+                            }
+
+                            Log.i("app","the content is "+postItemsList.get(0).getPost_content());
+                            adapter.notifyDataSetChanged();
+
+                            adapter = new PostItemsAdapter(getActivity(),postItemsList);
+
+                            recyclerView.setAdapter(adapter);
+                        }
+
+                    }
+                });
+    }
+
+    private void addPost(String data) {
+
+        CollectionReference posts = db.collection("Posts");
+
+        PostItems post = new PostItems("4:30","1","Aug",data);
+
+        posts.add(post).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
-            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(getActivity(),"Successfully sent", Toast.LENGTH_SHORT).show();
-                    storeToDatabase();
-                }
-                else{
-                    Toast.makeText(getActivity(),"Not Sent:(",Toast.LENGTH_SHORT).show();
-                }
+            public void onSuccess(DocumentReference documentReference) {
+                Toast.makeText(getContext(),"Created",Toast.LENGTH_LONG).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getContext(),"Mingindhi",Toast.LENGTH_SHORT).show();
             }
         });
+
     }
-
-    private void storeToDatabase() {
-        databaseReference.child(mAuth.getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                    Log.i("app","Present in database");
-                    HashMap inf = new HashMap();
-                    inf.put("id","1215316609");
-                    inf.put("data",mData);
-                    inf.put("time",mTime);
-                    inf.put("date",mDate);
-                    inf.put("Uid",mAuth.getUid());
-                    posts.updateChildren(inf).addOnCompleteListener(new OnCompleteListener() {
-                        @Override
-                        public void onComplete(@NonNull Task task) {
-                            if (task.isSuccessful())
-                                Log.i("app","Posts added");
-                        }
-                    });
-                    HashMap information = new HashMap();
-                    information.put("id","1215316609");
-                    information.put("dob","06051999");
-                    information.put("data",mData);
-                    databaseReference.child(mAuth.getUid()).updateChildren(information).addOnCompleteListener(new OnCompleteListener() {
-                        @Override
-                        public void onComplete(@NonNull Task task) {
-                            if(task.isSuccessful()){
-                                Log.i("app","Updated data in database");
-                                displayAllPosts();
-                            }
-                            else{
-                                Log.i("app","Database creation failed!");
-                            }
-                        }
-                    });
-                }
-                else{
-                    DatabaseReference firebaseDatabase1 = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getUid());
-                    DatabaseReference firebaseDatabase2 = FirebaseDatabase.getInstance().getReference().child("Posts").child(mAuth.getUid());
-
-                    HashMap information = new HashMap();
-                    information.put("id","1215316609");
-                    information.put("dob","06051999");
-                    information.put("data",null);
-                    firebaseDatabase1.updateChildren(information).addOnCompleteListener(new OnCompleteListener() {
-                        @Override
-                        public void onComplete(@NonNull Task task) {
-                            if (task.isSuccessful()){
-                                Toast.makeText(getActivity(),"Database Created For you",Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-
-                    HashMap inf = new HashMap();
-                    inf.put("id","1215316609");
-                    inf.put("data",null);
-                    inf.put("time",null);
-                    inf.put("date",null);
-                    inf.put("Uid",mAuth.getUid());
-                    firebaseDatabase2.updateChildren(inf).addOnCompleteListener(new OnCompleteListener() {
-                        @Override
-                        public void onComplete(@NonNull Task task) {
-                            if (task.isSuccessful())
-                                Log.i("app","Posts added");
-                        }
-                    });
-                }
-            }
-
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void displayAllPosts() {
-        Log.i("app","reached display method");
-        Query query = FirebaseDatabase.getInstance()
-                .getReference()
-                .child("Posts");
-
-        FirebaseRecyclerOptions<PostItems> options = new FirebaseRecyclerOptions.Builder<PostItems>()
-                .setQuery(query,PostItems.class)
-                .build();
-
-        FirebaseRecyclerAdapter adapter = new FirebaseRecyclerAdapter<PostItems,PostItemsViewHolder>(options) {
-            @Override
-            protected void onBindViewHolder(@NonNull PostItemsViewHolder holder, int position, @NonNull PostItems model) {
-                Toast.makeText(getActivity(),"Reached adapter",Toast.LENGTH_SHORT).show();
-                Log.i("app","reached adapter");
-                holder.bind(model);
-            }
-
-            @NonNull
-            @Override
-            public PostItemsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                PostItemsViewHolder object = new PostItemsViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cardview,viewGroup,false));
-                return object;
-            }
-        };
-
-        recyclerView.setAdapter(adapter);
-    }
-    public class PostItemsViewHolder extends RecyclerView.ViewHolder{
-        View mView;
-
-        TextView post_date,post_month,post_time,post_content;
-
-        public PostItemsViewHolder(@NonNull View itemView) {
-            super(itemView);
-            mView = itemView;
-
-            post_date = itemView.findViewById(R.id.day);
-            post_month = itemView.findViewById(R.id.month);
-            post_content = itemView.findViewById(R.id.problem);
-        }
-
-        public void bind(PostItems postItems){
-            PostItems temp = postItems;
-            Log.i("app",temp.getPost_content());
-
-            post_date.setText(temp.getPost_date());
-            post_month.setText(temp.getPost_month());
-            post_content.setText(temp.getPost_content());
-
-        }
-    }
-
 
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -313,6 +219,11 @@ public class Discussion extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        //adapter.stopListening();
     }
 
     /**

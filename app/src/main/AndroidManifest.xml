@@ -20,7 +20,7 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".PostPad"></activity>
+        <activity android:name=".PostPad" />
     </application>
 
 </manifest>
