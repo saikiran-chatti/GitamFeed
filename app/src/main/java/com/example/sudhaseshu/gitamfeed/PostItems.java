@@ -4,7 +4,7 @@ package com.example.sudhaseshu.gitamfeed;
 import com.google.firebase.firestore.Exclude;
 
 public class PostItems{
-    String post_date,post_month,post_content,post_time;
+    String post_date,post_month,post_content,post_time,likes;
 
     @Exclude
     private String id;
@@ -12,12 +12,23 @@ public class PostItems{
     public PostItems(){} //Added PostItems empty constructor to avoid  "users does not define a no-argument constructor. If you are using ProGuard, make sure these constructors are not stripped." error
 
 
-    public PostItems(String post_time, String post_date, String post_month, String post_content) {
+    public PostItems(String post_time, String post_date, String post_month, String post_content, String likes) {
         this.post_date = post_date;
         this.post_month = post_month;
         this.post_content = post_content;
         this.post_time = post_time;
+        this.likes= likes;
+
     }
+
+    public String getLikes() {
+        return likes;
+    }
+
+    public void setLikes(String likes) {
+        this.likes = likes;
+    }
+
 
     public String getId() {
         return id;

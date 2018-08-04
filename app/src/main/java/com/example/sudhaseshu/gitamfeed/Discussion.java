@@ -130,13 +130,13 @@ public class Discussion extends Fragment {
             }
         });
 
-
-
         //addPost("data");
         displayPosts();
         return view;
 
     }
+
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -152,6 +152,7 @@ public class Discussion extends Fragment {
 
                         Toast.makeText(getContext(),"sucess",Toast.LENGTH_SHORT).show();
                         Log.i("app","sucess");
+
 
                         if (!queryDocumentSnapshots.isEmpty()) {
 
@@ -180,7 +181,7 @@ public class Discussion extends Fragment {
 
         CollectionReference posts = db.collection("Posts");
 
-        PostItems post = new PostItems("4:30","1","Aug",data);
+        PostItems post = new PostItems("4:30","1","Aug",data,"0");
 
         posts.add(post).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
