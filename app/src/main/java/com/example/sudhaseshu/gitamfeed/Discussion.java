@@ -3,10 +3,13 @@ package com.example.sudhaseshu.gitamfeed;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -130,8 +133,18 @@ public class Discussion extends Fragment {
             }
         });
 
-        //addPost("data");
+        addPost("data");
         displayPosts();
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Do something after 100ms
+                
+            }
+        }, 1000);
+
         return view;
 
     }
@@ -145,7 +158,7 @@ public class Discussion extends Fragment {
 
     private void displayPosts(){
 
-        db.collection("Posts").get()
+        db.collection("Posts").orderBy("likes").get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -158,7 +171,7 @@ public class Discussion extends Fragment {
 
                             List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
 
-                            for (DocumentSnapshot d : list) {
+                            for (DocumentSnapshot d: list) {
                                 PostItems p = d.toObject(PostItems.class);
                                 Log.i("app","sucess"+p.getPost_content());
                                 p.setId(d.getId());

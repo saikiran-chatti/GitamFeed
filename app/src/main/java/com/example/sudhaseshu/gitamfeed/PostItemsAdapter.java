@@ -34,8 +34,9 @@ public class PostItemsAdapter  extends  RecyclerView.Adapter<PostItemsAdapter.Po
 
     private Context context;
     private List<PostItems> items;
-    private boolean postlike = false;
     private FirebaseFirestore likeDatabase;
+    private FirebaseFirestore db;
+
      PostItemsAdapter(Context context, List<PostItems> items) {
         this.context = context;
         this.items = items;
@@ -60,6 +61,7 @@ public class PostItemsAdapter  extends  RecyclerView.Adapter<PostItemsAdapter.Po
         final String id = post.getId();
         final FirebaseAuth mAuth = FirebaseAuth.getInstance();
         likeDatabase = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         postItemsViewHolder.like_button.setText(post.getLikes());
         postItemsViewHolder.p_month.setText(post.getPost_month());
@@ -89,7 +91,31 @@ public class PostItemsAdapter  extends  RecyclerView.Adapter<PostItemsAdapter.Po
             });
 
 
+            //When bookmark button is clicked
+            postItemsViewHolder.bookmark.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.i("app",""+mAuth.getUid());
+                    likeDatabase.collection("Users/" + mAuth.getUid()+"/PostId's").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (!task.getResult().exists()) {
 
+                                Map<String, Object> mark = new HashMap<>();
+                                mark.put("timestamp", FieldValue.serverTimestamp());
+
+
+                                likeDatabase.collection("Users/" + mAuth.getUid() + "/PostId's").document(id).set(mark);
+                            }
+                            else{
+                                likeDatabase.collection("Users/"+mAuth.getUid()+"/PostId's").document(id).delete();
+                            }
+                        }
+                    });
+                }
+            });
+
+            //When like button is clicked
             postItemsViewHolder.like_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -102,10 +128,39 @@ public class PostItemsAdapter  extends  RecyclerView.Adapter<PostItemsAdapter.Po
                                 Map<String, Object> likesMap = new HashMap<>();
                                 likesMap.put("timestamp", FieldValue.serverTimestamp());
 
+                                db.collection("Posts").document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        PostItems p = documentSnapshot.toObject(PostItems.class);
+                                        p.setLikes(String.valueOf(Integer.valueOf(p.getLikes())+1));
+
+                                        db.collection("Posts").document(id).set(p).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.i("app","Liked");
+                                            }
+                                        });
+                                    }
+                                });
+
                                 likeDatabase.collection("Posts/" + id + "/Likes").document(mAuth.getUid()).set(likesMap);
 
                             } else {
 
+                                db.collection("Posts").document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        PostItems p = documentSnapshot.toObject(PostItems.class);
+                                        p.setLikes(String.valueOf(Integer.valueOf(p.getLikes())-1));
+
+                                        db.collection("Posts").document(id).set(p).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Log.i("app","Liked");
+                                            }
+                                        });
+                                    }
+                                });
                                 likeDatabase.collection("Posts/" + id + "/Likes").document(mAuth.getUid()).delete();
 
                             }
@@ -130,12 +185,13 @@ public class PostItemsAdapter  extends  RecyclerView.Adapter<PostItemsAdapter.Po
      class PostItemsViewHolder extends RecyclerView.ViewHolder{
         View mView;
         TextView p_date,p_month,p_post;
-        Button like_button;
+        Button like_button,bookmark;
 
          PostItemsViewHolder(@NonNull View itemView) {
             super(itemView);
             mView = itemView;
 
+            bookmark = mView.findViewById(R.id.bookmark);
             like_button = mView.findViewById(R.id.like);
             p_date = mView.findViewById(R.id.day);
             p_month = mView.findViewById(R.id.month);
@@ -144,7 +200,6 @@ public class PostItemsAdapter  extends  RecyclerView.Adapter<PostItemsAdapter.Po
         }
 
          public void updateLikesCount(int count){
-
              like_button.setText(String.valueOf(count));
          }
     }

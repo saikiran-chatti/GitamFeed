@@ -54,6 +54,14 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintRight_toRightOf="parent"/>
+
+            <Button
+                android:id="@+id/bookmark"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 
