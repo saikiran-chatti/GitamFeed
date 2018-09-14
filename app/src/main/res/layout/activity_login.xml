@@ -1,19 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    android:background="#ffffff">
 
-    <ImageButton
-        android:id="@+id/google_button"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintLeft_toRightOf="@id/guideline3"
+        app:layout_constraintTop_toBottomOf="@id/guideline">
 
+        <TextView
+            android:id="@+id/heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_mono_medium"
+            android:text="Sign In to App"
+            android:textColor="#000000"
+            android:textSize="24dp" />
+
+        <TextView
+            android:id="@+id/Description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="monospace"
+            android:text="Why this app should be used"
+            android:textAllCaps="false"
+            android:textColor="#546e7a"
+            android:textSize="14sp"
+            app:layout_constraintTop_toBottomOf="@id/heading" />
+
+        <TextView
+            android:id="@+id/feature1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="monospace"
+            android:text="* Support developer "
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/Description" />
+
+        <TextView
+            android:id="@+id/feature2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="monospace"
+            android:text="* feature2 "
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/feature1" />
+
+        <TextView
+            android:id="@+id/feature3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="monospace"
+            android:text="* feature3 "
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/feature2" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dip"
+            android:background="@drawable/border_shadow"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/feature3" />
+
+        <TextView
+            android:id="@+id/Description2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:fontFamily="monospace"
+            android:text="Why enable Cloud sync"
+            android:textColor="#546e7a"
+            app:layout_constraintTop_toBottomOf="@id/feature3" />
+
+        <TextView
+            android:id="@+id/feature1_cloud"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="monospace"
+            android:text="* feature1 "
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/Description2" />
+
+        <TextView
+            android:id="@+id/feature2_cloud"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="monospace"
+            android:text="* feature2 "
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/feature1_cloud" />
+
+        <TextView
+            android:id="@+id/feature3_cloud"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="monospace"
+            android:text="* feature3 "
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/feature2_cloud" />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.75" />
+
+    <Button
+        android:id="@+id/website_link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/website"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="18dp"
+        android:layout_marginStart="18dp"
+        android:background="@drawable/button_shape"
+        android:layout_marginBottom="20dp"
+        android:textColor="#c0c0c0"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:text="Official Website (IEEE)"/>
+
+    <Button
+        android:id="@+id/google_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/gicon2"
+        android:text="Sign In with Google"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:textAllCaps="false"
+        android:background="@drawable/background_shape2"
+        app:layout_constraintBottom_toTopOf="@id/website_link"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="8dp"
+        android:textColor="#e1ebf7"
+        android:layout_marginStart="18dp"/>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.09" />
 
 </android.support.constraint.ConstraintLayout>

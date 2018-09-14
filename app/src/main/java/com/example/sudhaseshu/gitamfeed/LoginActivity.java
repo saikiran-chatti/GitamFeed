@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -70,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
 
-        ImageButton imageButton = findViewById(R.id.google_button);
+        Button imageButton = findViewById(R.id.google_button);
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
