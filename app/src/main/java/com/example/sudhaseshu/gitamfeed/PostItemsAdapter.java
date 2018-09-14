@@ -67,7 +67,7 @@ public class PostItemsAdapter  extends  RecyclerView.Adapter<PostItemsAdapter.Po
         postItemsViewHolder.p_month.setText(post.getPost_month());
         postItemsViewHolder.p_date.setText(post.getPost_date());
         postItemsViewHolder.p_post.setText(post.getPost_content());
-
+        postItemsViewHolder.title.setText(post.getTitle());
 
         try {
 
@@ -184,13 +184,14 @@ public class PostItemsAdapter  extends  RecyclerView.Adapter<PostItemsAdapter.Po
 
      class PostItemsViewHolder extends RecyclerView.ViewHolder{
         View mView;
-        TextView p_date,p_month,p_post;
+        TextView p_date,p_month,p_post,title;
         Button like_button,bookmark;
 
          PostItemsViewHolder(@NonNull View itemView) {
             super(itemView);
             mView = itemView;
 
+            title = mView.findViewById(R.id.Title_problem);
             bookmark = mView.findViewById(R.id.bookmark);
             like_button = mView.findViewById(R.id.like);
             p_date = mView.findViewById(R.id.day);

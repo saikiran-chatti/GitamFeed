@@ -1,6 +1,7 @@
 package com.example.sudhaseshu.gitamfeed;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,10 +13,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -29,7 +33,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -130,10 +136,12 @@ public class Discussion extends Fragment {
             @Override
             public void onClick(View view) {
                 //method to call new notepad
+                Intent intent = new Intent(getActivity(),NewPost.class);
+                startActivity(intent);
             }
         });
 
-        addPost("data");
+        //addPost("data");
         displayPosts();
 
         final Handler handler = new Handler();
@@ -188,13 +196,24 @@ public class Discussion extends Fragment {
 
                     }
                 });
+
     }
 
     private void addPost(String data) {
 
         CollectionReference posts = db.collection("Posts");
 
-        PostItems post = new PostItems("4:30","1","Aug",data,"0");
+        Date date = new Date();
+        String dayOfTheWeek = (String) DateFormat.format("EEEE", date); // Thursday
+        String dateofday          = (String) DateFormat.format("dd",   date); // 20
+        String monthString  = (String) DateFormat.format("MMM",  date); // Jun
+        String monthNumber  = (String) DateFormat.format("MM",   date); // 06
+        String year         = (String) DateFormat.format("yyyy", date); // 2013
+
+        SimpleDateFormat sdf=new SimpleDateFormat("hh:mm a");
+        String currentDateTimeString = sdf.format(date);
+
+        PostItems post = new PostItems(mAuth.getUid(),currentDateTimeString,dateofday,monthString,"title",data,"0");
 
         posts.add(post).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
