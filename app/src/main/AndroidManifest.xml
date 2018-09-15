@@ -33,7 +33,9 @@
         <activity
             android:name=".NewPost"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Read_Post"></activity>
+        <activity
+            android:name=".Read_Post"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

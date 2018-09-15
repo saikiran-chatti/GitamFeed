@@ -46,6 +46,7 @@ import java.util.List;
  * Use the {@link Discussion#newInstance} factory method to
  * create an instance of this fragment.
  */
+
 public class Discussion extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -183,6 +184,10 @@ public class Discussion extends Fragment {
                                 PostItems p = d.toObject(PostItems.class);
                                 Log.i("app","sucess"+p.getPost_content());
                                 p.setId(d.getId());
+                                Log.i("det",p.getTitle());
+                                Log.i("det",p.getId());
+                                Log.i("det",p.getLikes());
+
                                 postItemsList.add(p);
                             }
 
@@ -196,6 +201,60 @@ public class Discussion extends Fragment {
 
                     }
                 });
+
+
+        //OnClick Listener for every post created
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+
+                //handle click event
+                //Intent intent = new Intent()
+                try {
+                    TextView dump = view.findViewById(R.id.Title_problem);
+                    String title_string = dump.getText().toString();
+
+                    dump = view.findViewById(R.id.problem);
+                    String content_string = dump.getText().toString();
+
+                    dump = view.findViewById(R.id.day);
+                    String day_string = dump.getText().toString();
+
+                    dump = view.findViewById(R.id.month);
+                    String month_string = dump.getText().toString();
+
+                    Log.i("test2",month_string);
+
+                    Button dump_button = view.findViewById(R.id.bookmark);
+                    String bookmark_string = dump_button.getText().toString();
+
+                    Log.i("test2",bookmark_string);
+
+                    dump_button = view.findViewById(R.id.like);
+                    String likes_string = dump_button.getText().toString();
+                    Log.i("test2",likes_string);
+                Intent intent = new Intent(getContext(),Read_Post.class);
+                intent.putExtra("title",title_string);
+                intent.putExtra("content",content_string);
+                intent.putExtra("day",day_string);
+                intent.putExtra("month",month_string);
+                intent.putExtra("bookmark",bookmark_string);
+                intent.putExtra("likes",likes_string);
+
+                Log.i("test2",title_string+" "+day_string+month_string);
+                startActivity(intent);
+                }
+                catch(Exception e){
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
 
     }
 
@@ -213,7 +272,7 @@ public class Discussion extends Fragment {
         SimpleDateFormat sdf=new SimpleDateFormat("hh:mm a");
         String currentDateTimeString = sdf.format(date);
 
-        PostItems post = new PostItems(mAuth.getUid(),currentDateTimeString,dateofday,monthString,"title",data,"0");
+        PostItems post = new PostItems(mAuth.getUid(),posts.getId(),currentDateTimeString,dateofday,monthString,"title",data,"0");
 
         posts.add(post).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override

@@ -68,27 +68,27 @@ public class NewPost extends AppCompatActivity {
         });
     }
 
-    private void addPost(String data,String title_string) {
+    private void addPost(final String data, final String title_string) {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        CollectionReference posts = db.collection("Posts");
+        final CollectionReference posts = db.collection("Posts");
 
         Date date = new Date();
         String dayOfTheWeek = (String) DateFormat.format("EEEE", date); // Thursday
-        String dateofday          = (String) DateFormat.format("dd",   date); // 20
-        String monthString  = (String) DateFormat.format("MMM",  date); // Jun
+        final String dateofday          = (String) DateFormat.format("dd",   date); // 20
+        final String monthString  = (String) DateFormat.format("MMM",  date); // Jun
         String monthNumber  = (String) DateFormat.format("MM",   date); // 06
         String year         = (String) DateFormat.format("yyyy", date); // 2013
 
         SimpleDateFormat sdf=new SimpleDateFormat("hh:mm a");
-        String currentDateTimeString = sdf.format(date);
-        FirebaseAuth mAuth;
+        final String currentDateTimeString = sdf.format(date);
+        final FirebaseAuth mAuth;
         mAuth = FirebaseAuth.getInstance();
 
         Log.i("app",title_string);
 
-        PostItems post = new PostItems(mAuth.getUid(),currentDateTimeString,dateofday,monthString,title_string,data,"0");
+        final PostItems post = new PostItems(mAuth.getUid(),posts.getId(),currentDateTimeString,dateofday,monthString,title_string,data,"0");
 
         posts.add(post).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
@@ -96,6 +96,10 @@ public class NewPost extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Created",Toast.LENGTH_LONG).show();
                 Handler handler = new Handler();
 
+                Log.i("det",documentReference.getId());
+
+                post.setPid(documentReference.getId());
+                documentReference.update("pid",post.getPid());
                 handler.postDelayed(new Runnable() {
                     public void run() {
                         finish();

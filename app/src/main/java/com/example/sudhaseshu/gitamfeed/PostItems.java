@@ -8,6 +8,16 @@ public class PostItems {
 
     @Exclude
     private String id;
+    private String pid;
+
+    public String getPid() {
+        return pid;
+    }
+
+    public void setPid(String pid) {
+        this.pid = pid;
+    }
+
 
     public String getTitle() {
         return title;
@@ -24,9 +34,10 @@ public class PostItems {
     } //Added PostItems empty constructor to avoid  "users does not define a no-argument constructor. If you are using ProGuard, make sure these constructors are not stripped." error
 
 
-    public PostItems(String id, String post_time, String post_date, String post_month, String title, String post_content, String likes) {
+    public PostItems(String id, String pid, String post_time, String post_date, String post_month, String title, String post_content, String likes) {
 
         this.id = id;
+        this.pid = pid;
         this.post_date = post_date;
         this.post_month = post_month;
         this.title = title;

@@ -171,11 +171,16 @@ public class PostItemsAdapter  extends  RecyclerView.Adapter<PostItemsAdapter.Po
                 }
 
             });
+
+
         }
         catch (Exception e){
             e.printStackTrace();
         }
+
+
     }
+
 
     @Override
     public int getItemCount() {

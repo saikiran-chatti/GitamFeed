@@ -24,9 +24,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -41,11 +44,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     ViewPager viewPager;
     FragmentTransaction fragmentTransaction;
-
+    TextView nm,em;
+    ImageView pht;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         //Toolbar ..
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -56,6 +61,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        GoogleSignInAccount acc = GoogleSignIn.getLastSignedInAccount(this);
+        if(acc!=null)
+        {
+            String name = acc.getDisplayName();
+            String emailid = acc.getEmail();
+            Uri photo = acc.getPhotoUrl();
+            Log.i("acc",emailid);
+            //nm.setText(name);
+
+        }
         //drawer Layout
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.navigation_drawer_close);
