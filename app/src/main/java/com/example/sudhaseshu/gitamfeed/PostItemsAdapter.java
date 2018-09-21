@@ -1,6 +1,7 @@
 package com.example.sudhaseshu.gitamfeed;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -172,6 +173,89 @@ public class PostItemsAdapter  extends  RecyclerView.Adapter<PostItemsAdapter.Po
 
             });
 
+            postItemsViewHolder.title.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+
+                        Intent intent = new Intent(context,Read_Post.class);
+                        intent.putExtra("title",post.getTitle());
+                        intent.putExtra("content",post.getPost_content());
+                        intent.putExtra("day",post.getPost_date());
+                        intent.putExtra("month",post.getPost_month());
+                        intent.putExtra("likes",post.getLikes());
+
+                        Log.i("test2",post.getPost_content());
+                        context.startActivity(intent);
+                    }
+                    catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            postItemsViewHolder.p_date.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+
+                        Intent intent = new Intent(context,Read_Post.class);
+                        intent.putExtra("title",post.getTitle());
+                        intent.putExtra("content",post.getPost_content());
+                        intent.putExtra("day",post.getPost_date());
+                        intent.putExtra("month",post.getPost_month());
+                        intent.putExtra("likes",post.getLikes());
+
+                        Log.i("test2",post.getPost_content());
+                        context.startActivity(intent);
+                    }
+                    catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            postItemsViewHolder.p_month.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+
+                        Intent intent = new Intent(context,Read_Post.class);
+                        intent.putExtra("title",post.getTitle());
+                        intent.putExtra("content",post.getPost_content());
+                        intent.putExtra("day",post.getPost_date());
+                        intent.putExtra("month",post.getPost_month());
+                        intent.putExtra("likes",post.getLikes());
+
+                        Log.i("test2",post.getPost_content());
+                        context.startActivity(intent);
+                    }
+                    catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            postItemsViewHolder.p_post.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+
+                        Intent intent = new Intent(context,Read_Post.class);
+                        intent.putExtra("title",post.getTitle());
+                        intent.putExtra("content",post.getPost_content());
+                        intent.putExtra("day",post.getPost_date());
+                        intent.putExtra("month",post.getPost_month());
+                        intent.putExtra("likes",post.getLikes());
+
+                        Log.i("test2",post.getPost_content());
+                        context.startActivity(intent);
+                    }
+                    catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            });
 
         }
         catch (Exception e){

@@ -3,6 +3,7 @@ package com.example.sudhaseshu.gitamfeed;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -67,6 +68,7 @@ public class Notice extends Fragment {
         // Inflate the layout for this fragment
         Log.i("app","Reached");
         return inflater.inflate(R.layout.fragment_notice, container, false);
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

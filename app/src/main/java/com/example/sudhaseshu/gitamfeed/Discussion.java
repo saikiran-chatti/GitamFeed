@@ -204,57 +204,6 @@ public class Discussion extends Fragment {
 
 
         //OnClick Listener for every post created
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-
-                //handle click event
-                //Intent intent = new Intent()
-                try {
-                    TextView dump = view.findViewById(R.id.Title_problem);
-                    String title_string = dump.getText().toString();
-
-                    dump = view.findViewById(R.id.problem);
-                    String content_string = dump.getText().toString();
-
-                    dump = view.findViewById(R.id.day);
-                    String day_string = dump.getText().toString();
-
-                    dump = view.findViewById(R.id.month);
-                    String month_string = dump.getText().toString();
-
-                    Log.i("test2",month_string);
-
-                    Button dump_button = view.findViewById(R.id.bookmark);
-                    String bookmark_string = dump_button.getText().toString();
-
-                    Log.i("test2",bookmark_string);
-
-                    dump_button = view.findViewById(R.id.like);
-                    String likes_string = dump_button.getText().toString();
-                    Log.i("test2",likes_string);
-                Intent intent = new Intent(getContext(),Read_Post.class);
-                intent.putExtra("title",title_string);
-                intent.putExtra("content",content_string);
-                intent.putExtra("day",day_string);
-                intent.putExtra("month",month_string);
-                intent.putExtra("bookmark",bookmark_string);
-                intent.putExtra("likes",likes_string);
-
-                Log.i("test2",title_string+" "+day_string+month_string);
-                startActivity(intent);
-                }
-                catch(Exception e){
-                    e.printStackTrace();
-                }
-
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }
-        }));
 
     }
 
