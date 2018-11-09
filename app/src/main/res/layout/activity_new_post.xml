@@ -27,12 +27,6 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/backbutton" />
 
-            <ImageButton
-                android:id="@+id/send_post"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/send" />
-
         </android.support.v7.widget.Toolbar>
 
         <android.support.constraint.ConstraintLayout

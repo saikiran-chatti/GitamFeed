@@ -1,10 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.sudhaseshu.gitamfeed.MainActivity">
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+    tools:showIn="@layout/nav_header_nav"
+    >
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/gitam_feed"
+            android:title="Home"
+            android:icon="@drawable/round_home_black_36dp"
+            />
+        <item
+            android:id="@+id/bookmarks"
+            android:title="Bookmarks"
+            android:icon="@drawable/round_bookmarks_black_36dp"/>
+        <item
+            android:id="@+id/nav_slideshow"
+            android:title="Your Posts"
+            android:icon="@drawable/round_question_answer_black_36dp"/>
+        <item
+            android:id="@+id/nav_manage"
+            android:title="Materials"
+            android:icon="@drawable/round_library_books_black_36dp"/>
+    </group>
+
+    <item android:title="Gitam Feed">
+        <menu>
+            <item
+                android:id="@+id/about"
+                android:title="About"
+                android:icon="@drawable/round_info_black_36dp"/>
+            <item
+                android:id="@+id/rate"
+                android:title="Rate this app"
+                android:icon="@drawable/round_star_black_36dp"/>
+        </menu>
+    </item>
+
 </menu>

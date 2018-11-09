@@ -10,16 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentListenOptions;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
@@ -31,26 +26,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PostItemsAdapter  extends  RecyclerView.Adapter<PostItemsAdapter.PostItemsViewHolder>{
-
+public class bookmark_adapter extends  RecyclerView.Adapter<bookmark_adapter.PostItemsViewHolder>{
     private Context context;
     private List<PostItems> items;
     private FirebaseFirestore likeDatabase;
     private FirebaseFirestore db;
 
-     PostItemsAdapter(Context context, List<PostItems> items) {
+    bookmark_adapter(Context context, List<PostItems> items) {
         this.context = context;
         this.items = items;
     }
-
-
     @NonNull
     @Override
-    public PostItemsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public bookmark_adapter.PostItemsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         Log.i("app","View created");
         View view = LayoutInflater.from(context).inflate(R.layout.cardview,viewGroup,false);
 
-        return new PostItemsViewHolder(
+        return new bookmark_adapter.PostItemsViewHolder(
                 LayoutInflater.from(context).inflate(R.layout.cardview, viewGroup, false)
         );
     }
@@ -265,7 +257,6 @@ public class PostItemsAdapter  extends  RecyclerView.Adapter<PostItemsAdapter.Po
             e.printStackTrace();
         }
 
-
     }
 
 
@@ -274,12 +265,12 @@ public class PostItemsAdapter  extends  RecyclerView.Adapter<PostItemsAdapter.Po
         return items.size();
     }
 
-     class PostItemsViewHolder extends RecyclerView.ViewHolder{
+    class PostItemsViewHolder extends RecyclerView.ViewHolder{
         View mView;
         TextView p_date,p_month,p_post,title;
         Button like_button,bookmark;
 
-         PostItemsViewHolder(@NonNull View itemView) {
+        PostItemsViewHolder(@NonNull View itemView) {
             super(itemView);
             mView = itemView;
 
@@ -292,8 +283,8 @@ public class PostItemsAdapter  extends  RecyclerView.Adapter<PostItemsAdapter.Po
 
         }
 
-         public void updateLikesCount(int count){
-             like_button.setText(String.valueOf(count));
-         }
+        public void updateLikesCount(int count){
+            like_button.setText(String.valueOf(count));
+        }
     }
 }

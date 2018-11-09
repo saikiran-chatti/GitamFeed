@@ -25,6 +25,7 @@ import org.w3c.dom.Document;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -84,8 +85,7 @@ public class Bookmark_Fragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_bookmark_, container, false);
         bookmarkItemsList = new ArrayList<>();
@@ -104,22 +104,28 @@ public class Bookmark_Fragment extends Fragment {
 
         db = FirebaseFirestore.getInstance();
 
-        db.collection("Users").document(mAuth.getUid()).collection("PostId's").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        db.collection("Users").document(Objects.requireNonNull(mAuth.getUid())).collection("PostId's").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot documentSnapshots) {
-                List<DocumentSnapshot> documents = documentSnapshots.getDocuments();
+                if (!documentSnapshots.isEmpty()) {
+                    List<DocumentSnapshot> documents = documentSnapshots.getDocuments();
 
-                for (DocumentSnapshot d:documents){
-                    db.collection("Posts").document(d.getId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            PostItems p = documentSnapshot.toObject(PostItems.class);
-                            p.setId(documentSnapshot.getId());
-                            bookmarkItemsList.add(p);
-                        }
-                    });
+                    for (DocumentSnapshot d : documents) {
+                        db.collection("Posts").document(d.getId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                Log.i("app", "Bookmark retrieved");
+                                PostItems p = documentSnapshot.toObject(PostItems.class);
+                                p.setId(documentSnapshot.getId());
+                                bookmarkItemsList.add(p);
+                            }
+                        });
 
-                    adapter.notifyDataSetChanged();
+                        adapter.notifyDataSetChanged();
+                    }
+                    adapter = new PostItemsAdapter(getActivity(),bookmarkItemsList);
+
+                    recyclerView.setAdapter(adapter);
                 }
             }
         });

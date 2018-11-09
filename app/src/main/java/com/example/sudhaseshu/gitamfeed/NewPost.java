@@ -4,13 +4,18 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -30,42 +35,63 @@ import java.util.Locale;
 public class NewPost extends AppCompatActivity {
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.new_post, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.send_menu) {
+            Date date = new Date();
+            String dayOfTheWeek = (String) DateFormat.format("EEEE", date); // Thursday
+            String day = (String) DateFormat.format("dd", date); // 20
+            String monthString = (String) DateFormat.format("MMM", date); // Jun
+            String monthNumber = (String) DateFormat.format("MM", date); // 06
+            String year = (String) DateFormat.format("yyyy", date); // 2013
+
+            TextView mDateDisplay = findViewById(R.id.date);
+            mDateDisplay.setText(monthString + " " + day);
+
+
+            TextView mTimeDisplay = findViewById(R.id.time);
+            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+            String currentDateTimeString = sdf.format(date);
+            mTimeDisplay.setText(currentDateTimeString);
+
+            EditText content = findViewById(R.id.problem_content);
+            final String content_string = content.getText().toString();
+
+            TextView title = findViewById(R.id.title);
+            String title_string = title.getText().toString();
+
+            Log.i("app", content_string);
+            addPost(content_string, title_string);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_post);
 
+        Toolbar toolbar = findViewById(R.id.toolbar2);
+        setSupportActionBar(toolbar);
 
-        Date date = new Date();
-        String dayOfTheWeek = (String) DateFormat.format("EEEE", date); // Thursday
-        String day          = (String) DateFormat.format("dd",   date); // 20
-        String monthString  = (String) DateFormat.format("MMM",  date); // Jun
-        String monthNumber  = (String) DateFormat.format("MM",   date); // 06
-        String year         = (String) DateFormat.format("yyyy", date); // 2013
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar.setTitle("");
+        toolbar.setSubtitle("");
 
-        TextView mDateDisplay = findViewById(R.id.date);
-        mDateDisplay.setText(monthString+" "+day);
-
-
-        TextView mTimeDisplay = findViewById(R.id.time);
-        SimpleDateFormat sdf=new SimpleDateFormat("hh:mm a");
-        String currentDateTimeString = sdf.format(date);
-        mTimeDisplay.setText(currentDateTimeString);
-
-
-        ImageButton send = findViewById(R.id.send_post);
-        send.setOnClickListener(new View.OnClickListener() {
+        ImageView imageView = findViewById(R.id.back);
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText content = findViewById(R.id.problem_content);
-                final String content_string =  content.getText().toString();
-
-                TextView title = findViewById(R.id.title);
-                String title_string = title.getText().toString();
-
-                Log.i("app",content_string);
-                addPost(content_string,title_string);
+                finish();
             }
         });
+
+
     }
 
     private void addPost(final String data, final String title_string) {
@@ -76,30 +102,30 @@ public class NewPost extends AppCompatActivity {
 
         Date date = new Date();
         String dayOfTheWeek = (String) DateFormat.format("EEEE", date); // Thursday
-        final String dateofday          = (String) DateFormat.format("dd",   date); // 20
-        final String monthString  = (String) DateFormat.format("MMM",  date); // Jun
-        String monthNumber  = (String) DateFormat.format("MM",   date); // 06
-        String year         = (String) DateFormat.format("yyyy", date); // 2013
+        final String dateofday = (String) DateFormat.format("dd", date); // 20
+        final String monthString = (String) DateFormat.format("MMM", date); // Jun
+        String monthNumber = (String) DateFormat.format("MM", date); // 06
+        String year = (String) DateFormat.format("yyyy", date); // 2013
 
-        SimpleDateFormat sdf=new SimpleDateFormat("hh:mm a");
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
         final String currentDateTimeString = sdf.format(date);
         final FirebaseAuth mAuth;
         mAuth = FirebaseAuth.getInstance();
 
-        Log.i("app",title_string);
+        Log.i("app", title_string);
 
-        final PostItems post = new PostItems(mAuth.getUid(),posts.getId(),currentDateTimeString,dateofday,monthString,title_string,data,"0");
+        final PostItems post = new PostItems(mAuth.getUid(), posts.getId(), currentDateTimeString, dateofday, monthString, title_string, data, "0");
 
         posts.add(post).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                Toast.makeText(getApplicationContext(),"Created",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Created", Toast.LENGTH_LONG).show();
                 Handler handler = new Handler();
 
-                Log.i("det",documentReference.getId());
+                Log.i("det", documentReference.getId());
 
                 post.setPid(documentReference.getId());
-                documentReference.update("pid",post.getPid());
+                documentReference.update("pid", post.getPid());
                 handler.postDelayed(new Runnable() {
                     public void run() {
                         finish();
@@ -109,7 +135,7 @@ public class NewPost extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getApplicationContext(),"Mingindhi",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Mingindhi", Toast.LENGTH_SHORT).show();
             }
         });
 
