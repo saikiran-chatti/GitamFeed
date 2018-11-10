@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,7 +65,7 @@ public class PostItemsAdapter  extends  RecyclerView.Adapter<PostItemsAdapter.Po
         likeDatabase = FirebaseFirestore.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        postItemsViewHolder.like_button.setText(post.getLikes());
+        //postItemsViewHolder.like_button.setText(post.getLikes()); As it is converted from button to image button this sentence will not work
         postItemsViewHolder.p_month.setText(post.getPost_month());
         postItemsViewHolder.p_date.setText(post.getPost_date());
         postItemsViewHolder.p_post.setText(post.getPost_content());
@@ -91,6 +92,38 @@ public class PostItemsAdapter  extends  RecyclerView.Adapter<PostItemsAdapter.Po
                 }
             });
 
+            // Check bookmarks icon whether it is filled or not while Displaying
+            likeDatabase.collection("Users/" + mAuth.getUid()+"/PostId's").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (!task.getResult().exists()) {
+                        postItemsViewHolder.bookmark.setImageResource(R.drawable.bookmarknofill); // Changing the bookmark icon when the post is bookmarked
+                    }
+                    else{
+                        postItemsViewHolder.bookmark.setImageResource(R.drawable.bookmarkfill); // Changing the bookmark icon when the post is removed from bookmarks.
+                    }
+                }
+            });
+
+            // Check like icon whether it is filled or not while displaying in Discussions
+            likeDatabase.collection("Posts/" + id + "/Likes").document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                    if (!task.getResult().exists()) {
+
+                        postItemsViewHolder.like_button.setImageResource(R.drawable.like1nofill); // Changing the like icon when the post is liked
+
+                    } else {
+
+                        postItemsViewHolder.like_button.setImageResource(R.drawable.like1fill);
+
+                    }
+
+                }
+            });
+
+
 
             //When bookmark button is clicked
             postItemsViewHolder.bookmark.setOnClickListener(new View.OnClickListener() {
@@ -101,14 +134,15 @@ public class PostItemsAdapter  extends  RecyclerView.Adapter<PostItemsAdapter.Po
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if (!task.getResult().exists()) {
+                                postItemsViewHolder.bookmark.setImageResource(R.drawable.bookmarkfill); // Changing the bookmark icon when the post is bookmarked
 
                                 Map<String, Object> mark = new HashMap<>();
                                 mark.put("timestamp", FieldValue.serverTimestamp());
 
-
                                 likeDatabase.collection("Users/" + mAuth.getUid() + "/PostId's").document(id).set(mark);
                             }
                             else{
+                                postItemsViewHolder.bookmark.setImageResource(R.drawable.bookmarknofill); // Changing the bookmark icon when the post is removed from bookmarks.
                                 likeDatabase.collection("Users/"+mAuth.getUid()+"/PostId's").document(id).delete();
                             }
                         }
@@ -125,6 +159,8 @@ public class PostItemsAdapter  extends  RecyclerView.Adapter<PostItemsAdapter.Po
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
                             if (!task.getResult().exists()) {
+
+                                postItemsViewHolder.like_button.setImageResource(R.drawable.like1fill); // Changing the like icon when the post is liked
 
                                 Map<String, Object> likesMap = new HashMap<>();
                                 likesMap.put("timestamp", FieldValue.serverTimestamp());
@@ -147,6 +183,8 @@ public class PostItemsAdapter  extends  RecyclerView.Adapter<PostItemsAdapter.Po
                                 likeDatabase.collection("Posts/" + id + "/Likes").document(mAuth.getUid()).set(likesMap);
 
                             } else {
+
+                                postItemsViewHolder.like_button.setImageResource(R.drawable.like1nofill);
 
                                 db.collection("Posts").document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                     @Override
@@ -277,7 +315,7 @@ public class PostItemsAdapter  extends  RecyclerView.Adapter<PostItemsAdapter.Po
      class PostItemsViewHolder extends RecyclerView.ViewHolder{
         View mView;
         TextView p_date,p_month,p_post,title;
-        Button like_button,bookmark;
+        ImageButton like_button,bookmark;
 
          PostItemsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -293,7 +331,8 @@ public class PostItemsAdapter  extends  RecyclerView.Adapter<PostItemsAdapter.Po
         }
 
          public void updateLikesCount(int count){
-             like_button.setText(String.valueOf(count));
+             //like_button.setText(String.valueOf(count));
+             //like_button is an image button
          }
     }
 }

@@ -59,7 +59,7 @@ public class BookmarkActivity extends AppCompatActivity {
                     Log.i("app"," "+documents.size()+"size of retrieved document");
 
                     for (DocumentSnapshot d : documents) {
-                        Log.i("app","uid"+d.getId());
+                        Log.i("app","uid "+d.getId());
                         db.collection("Posts").document(d.getId()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                             @Override
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -68,14 +68,15 @@ public class BookmarkActivity extends AppCompatActivity {
                                 p.setId(documentSnapshot.getId());
                                 Log.i("app",p.getId().toString());
                                 bookmarkItemsList.add(p);
+                                Log.i("app",bookmarkItemsList.size()+" lkfasjdflasdj");
+                                adapter.notifyDataSetChanged();
+                                adapter = new PostItemsAdapter(getApplicationContext(), bookmarkItemsList);
+                                recyclerView.setAdapter(adapter);
                             }
                         });
 
-                        adapter.notifyDataSetChanged();
                     }
-                    adapter = new PostItemsAdapter(getApplicationContext(), bookmarkItemsList);
-                    Log.i("app",bookmarkItemsList.toString()+" lkfasjdflasdj");
-                    recyclerView.setAdapter(adapter);
+
                 }
             }
         });

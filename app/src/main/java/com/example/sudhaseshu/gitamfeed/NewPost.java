@@ -79,6 +79,22 @@ public class NewPost extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
 
+        Date date = new Date();
+        String dayOfTheWeek = (String) DateFormat.format("EEEE", date); // Thursday
+        String day = (String) DateFormat.format("dd", date); // 20
+        String monthString = (String) DateFormat.format("MMM", date); // Jun
+        String monthNumber = (String) DateFormat.format("MM", date); // 06
+        String year = (String) DateFormat.format("yyyy", date); // 2013
+
+        TextView mDateDisplay = findViewById(R.id.date);
+        mDateDisplay.setText(monthString + " " + day);
+
+
+        TextView mTimeDisplay = findViewById(R.id.time);
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+        String currentDateTimeString = sdf.format(date);
+        mTimeDisplay.setText(currentDateTimeString);
+
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setTitle("");
         toolbar.setSubtitle("");

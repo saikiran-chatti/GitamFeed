@@ -60,15 +60,19 @@
                 app:layout_constraintTop_toBottomOf="@id/month"
                 android:text="This is how the text in the cardview looks like this text is the data which is stored in firebase and we can modify it."/>
 
-            <Button
+            <ImageButton
+                android:src="@drawable/like1nofill"
                 android:id="@+id/like"
+                android:background="@color/white"
                 android:elevation="4dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintRight_toRightOf="parent"/>
 
-            <Button
+            <ImageButton
+                android:src="@drawable/bookmarknofill"
+                android:background="@color/white"
                 android:id="@+id/bookmark"
                 android:elevation="4dp"
                 android:layout_width="30dp"
