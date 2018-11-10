@@ -65,7 +65,7 @@ public class PostItemsAdapter  extends  RecyclerView.Adapter<PostItemsAdapter.Po
         likeDatabase = FirebaseFirestore.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        //postItemsViewHolder.like_button.setText(post.getLikes()); As it is converted from button to image button this sentence will not work
+        postItemsViewHolder.p_likecount.setText(post.getLikes());
         postItemsViewHolder.p_month.setText(post.getPost_month());
         postItemsViewHolder.p_date.setText(post.getPost_date());
         postItemsViewHolder.p_post.setText(post.getPost_content());
@@ -314,7 +314,7 @@ public class PostItemsAdapter  extends  RecyclerView.Adapter<PostItemsAdapter.Po
 
      class PostItemsViewHolder extends RecyclerView.ViewHolder{
         View mView;
-        TextView p_date,p_month,p_post,title;
+        TextView p_date,p_month,p_post,title,p_likecount;
         ImageButton like_button,bookmark;
 
          PostItemsViewHolder(@NonNull View itemView) {
@@ -327,12 +327,12 @@ public class PostItemsAdapter  extends  RecyclerView.Adapter<PostItemsAdapter.Po
             p_date = mView.findViewById(R.id.day);
             p_month = mView.findViewById(R.id.month);
             p_post = mView.findViewById(R.id.problem);
+            p_likecount = mView.findViewById(R.id.like_count);
 
         }
 
          public void updateLikesCount(int count){
-             //like_button.setText(String.valueOf(count));
-             //like_button is an image button
+             p_likecount.setText(String.valueOf(count));
          }
     }
 }
