@@ -1,6 +1,7 @@
 package com.example.sudhaseshu.gitamfeed;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -79,6 +80,15 @@ public class LoginActivity extends AppCompatActivity {
                 signIn();
             }
         });
+
+        Button ieee_website = findViewById(R.id.website_link);
+        ieee_website.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://ieee.gitam.edu/"));
+                startActivity(browserIntent);
+            }
+        });
     }
 
     private void signIn() {
@@ -86,6 +96,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, 123);
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -95,9 +106,11 @@ public class LoginActivity extends AppCompatActivity {
             if (result.isSuccess()){
                 GoogleSignInAccount account = result.getSignInAccount();
                 firebaseAuthWithGoogle(account);
+                Toast.makeText(getApplicationContext(),"Successfully logged in :)",Toast.LENGTH_SHORT).show();
+
             }
             else{
-                Toast.makeText(getApplicationContext(),"Wrong with the details:(",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),":(",Toast.LENGTH_SHORT).show();
             }
         }
     }

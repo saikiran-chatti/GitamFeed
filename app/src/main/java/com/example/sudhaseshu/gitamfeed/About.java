@@ -19,8 +19,5 @@ public class About extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-        Toolbar topToolBar = (Toolbar)findViewById(R.id.toolbar2);
-        setSupportActionBar(topToolBar);
-        topToolBar.setTitleTextColor(Color.BLACK);
     }
 }

@@ -43,7 +43,7 @@
         <activity android:name=".About" />
         <activity android:name=".BookmarkActivity" />
         <activity android:name=".MoreInfo" />
-        <activity android:name=".Yourposts"></activity>
+        <activity android:name=".Yourposts" />
     </application>
 
 </manifest>

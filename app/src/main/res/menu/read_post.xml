@@ -5,8 +5,18 @@
     tools:context=".Read_Post">
 
     <item
+        android:title="Delete"
+        android:id="@+id/delete"
+        app:showAsAction="always"
+        android:visible="false"
+        android:menuCategory="secondary"
+        android:icon="@drawable/delete"/>
+
+    <item
         android:title="Like"
         android:id="@+id/like_menu"
         app:showAsAction="always"
         android:icon="@drawable/like"/>
+
+
 </menu>

@@ -11,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
@@ -57,7 +58,7 @@ public class Discussion extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private String mTime,mDate,mData;
+    private String mTime, mDate, mData;
     private RecyclerView recyclerView;
 
     PostItemsAdapter adapter;
@@ -68,6 +69,7 @@ public class Discussion extends Fragment {
     private OnFragmentInteractionListener mListener;
     FirebaseFirestore db;
     private LinearLayoutManager mLayoutManager;
+    public SwipeRefreshLayout swipeRefreshLayout ;
 
     public Discussion() {
         // Required empty public constructor
@@ -105,7 +107,17 @@ public class Discussion extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =inflater.inflate(R.layout.fragment_discussion, container, false);
+        View view = inflater.inflate(R.layout.fragment_discussion, container, false);
+        swipeRefreshLayout = view.findViewById(R.id.swiperefresh);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fetchthedata(0);
+            }
+        });
+
+
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -123,21 +135,16 @@ public class Discussion extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setHasFixedSize(true);
 
-        adapter = new PostItemsAdapter(getActivity(),postItemsList);
+        adapter = new PostItemsAdapter(getActivity(), postItemsList);
 
         recyclerView.setAdapter(adapter);
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-//        layoutManager.setReverseLayout(true);
-//        layoutManager.setStackFromEnd(true);
-        //recyclerView.setLayoutManager(layoutManager);
-
 
         FloatingActionButton add = view.findViewById(R.id.floatingActionButton);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //method to call new notepad
-                Intent intent = new Intent(getActivity(),NewPost.class);
+                Intent intent = new Intent(getActivity(), NewPost.class);
                 startActivity(intent);
             }
         });
@@ -145,19 +152,9 @@ public class Discussion extends Fragment {
         //addPost("data");
         displayPosts();
 
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //Do something after 100ms
-                
-            }
-        }, 1000);
-
         return view;
 
     }
-
 
 
     @Override
@@ -165,36 +162,35 @@ public class Discussion extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private void displayPosts(){
+    private void displayPosts() {
 
         db.collection("Posts").orderBy("likes").get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
-                        Toast.makeText(getContext(),"sucess",Toast.LENGTH_SHORT).show();
-                        Log.i("app","sucess");
+                        Log.i("app", "sucess");
 
 
                         if (!queryDocumentSnapshots.isEmpty()) {
 
                             List<DocumentSnapshot> list = queryDocumentSnapshots.getDocuments();
 
-                            for (DocumentSnapshot d: list) {
+                            for (DocumentSnapshot d : list) {
                                 PostItems p = d.toObject(PostItems.class);
-                                Log.i("app","sucess"+p.getPost_content());
+                                Log.i("app", "sucess" + p.getPost_content());
                                 p.setId(d.getId());
-                                Log.i("det",p.getTitle());
-                                Log.i("det",p.getId());
-                                Log.i("det",p.getLikes());
+                                Log.i("det", p.getTitle());
+                                Log.i("det", p.getId());
+                                Log.i("det", p.getLikes());
 
                                 postItemsList.add(p);
                             }
 
-                            Log.i("app","the content is "+postItemsList.get(0).getPost_content());
+                            Log.i("app", "the content is " + postItemsList.get(0).getPost_content());
                             adapter.notifyDataSetChanged();
 
-                            adapter = new PostItemsAdapter(getActivity(),postItemsList);
+                            adapter = new PostItemsAdapter(getActivity(), postItemsList);
 
                             recyclerView.setAdapter(adapter);
                         }
@@ -213,25 +209,25 @@ public class Discussion extends Fragment {
 
         Date date = new Date();
         String dayOfTheWeek = (String) DateFormat.format("EEEE", date); // Thursday
-        String dateofday          = (String) DateFormat.format("dd",   date); // 20
-        String monthString  = (String) DateFormat.format("MMM",  date); // Jun
-        String monthNumber  = (String) DateFormat.format("MM",   date); // 06
-        String year         = (String) DateFormat.format("yyyy", date); // 2013
+        String dateofday = (String) DateFormat.format("dd", date); // 20
+        String monthString = (String) DateFormat.format("MMM", date); // Jun
+        String monthNumber = (String) DateFormat.format("MM", date); // 06
+        String year = (String) DateFormat.format("yyyy", date); // 2013
 
-        SimpleDateFormat sdf=new SimpleDateFormat("hh:mm a");
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
         String currentDateTimeString = sdf.format(date);
 
-        PostItems post = new PostItems(mAuth.getUid(),posts.getId(),currentDateTimeString,dateofday,monthString,"title",data,"0");
+        PostItems post = new PostItems(mAuth.getUid(), posts.getId(), currentDateTimeString, dateofday, monthString, "title", data, "0");
 
         posts.add(post).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
             public void onSuccess(DocumentReference documentReference) {
-                Toast.makeText(getContext(),"Created",Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Created", Toast.LENGTH_LONG).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getContext(),"Mingindhi",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Mingindhi", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -256,16 +252,32 @@ public class Discussion extends Fragment {
         }
     }
 
+    private void fetchthedata(int i) {
+        postItemsList.clear();
+        adapter.notifyDataSetChanged();
+
+        displayPosts();
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
+
     @Override
     public void onStop() {
         super.onStop();
         //adapter.stopListening();
     }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this

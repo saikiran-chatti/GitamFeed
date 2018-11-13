@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="monospace"
-            android:text="* Support developer "
+            android:text="* Provide upto date news "
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@id/Description" />
 
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="monospace"
-            android:text="* feature2 "
+            android:text="* User friendly - allows user to\n  add content and make suggestions "
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@id/feature1" />
 
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="monospace"
-            android:text="* feature3 "
+            android:text="* Why enable Cloud sync "
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@id/feature2" />
 
@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="monospace"
-            android:text="* feature1 "
+            android:text="* Avoids wasting time in managing\n  data "
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@id/Description2" />
 
@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="monospace"
-            android:text="* feature2 "
+            android:text="* Effective backup and restoration "
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@id/feature1_cloud" />
 
@@ -106,7 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="monospace"
-            android:text="* feature3 "
+            android:text="* Provides Data Security "
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@id/feature2_cloud" />
     </android.support.constraint.ConstraintLayout>

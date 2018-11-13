@@ -217,6 +217,7 @@ public class PostItemsAdapter  extends  RecyclerView.Adapter<PostItemsAdapter.Po
                     try {
 
                         Intent intent = new Intent(context,Read_Post.class);
+                        Toast.makeText(context,"name:"+context,Toast.LENGTH_SHORT).show();
                         intent.putExtra("title",post.getTitle());
                         intent.putExtra("content",post.getPost_content());
                         intent.putExtra("day",post.getPost_date());
@@ -334,5 +335,8 @@ public class PostItemsAdapter  extends  RecyclerView.Adapter<PostItemsAdapter.Po
          public void updateLikesCount(int count){
              p_likecount.setText(String.valueOf(count));
          }
+    }
+
+    public class YourPostItemsViewHolder {
     }
 }

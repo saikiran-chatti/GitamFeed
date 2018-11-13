@@ -9,12 +9,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentListenOptions;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
@@ -26,29 +32,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class bookmark_adapter extends  RecyclerView.Adapter<bookmark_adapter.PostItemsViewHolder>{
+class YourPostsItemAdapter  extends  RecyclerView.Adapter<YourPostsItemAdapter.YourPostItemsViewHolder>{
+
     private Context context;
     private List<PostItems> items;
     private FirebaseFirestore likeDatabase;
     private FirebaseFirestore db;
 
-    bookmark_adapter(Context context, List<PostItems> items) {
+    YourPostsItemAdapter(Context context, List<PostItems> items) {
         this.context = context;
         this.items = items;
     }
+
+
     @NonNull
     @Override
-    public bookmark_adapter.PostItemsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        Log.i("app","View created");
+    public YourPostItemsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i){
         View view = LayoutInflater.from(context).inflate(R.layout.cardview,viewGroup,false);
 
-        return new bookmark_adapter.PostItemsViewHolder(
-                LayoutInflater.from(context).inflate(R.layout.cardview, viewGroup, false)
-        );
+        return new YourPostItemsViewHolder(LayoutInflater.from(context).inflate(R.layout.cardview,viewGroup,false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final PostItemsViewHolder postItemsViewHolder, int i) {
+    public void onBindViewHolder(@NonNull YourPostItemsViewHolder yourPostItemsViewHolder, int i) {
         final PostItems post = items.get(i);
 
         final String id = post.getId();
@@ -56,11 +62,11 @@ public class bookmark_adapter extends  RecyclerView.Adapter<bookmark_adapter.Pos
         likeDatabase = FirebaseFirestore.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        postItemsViewHolder.like_button.setText(post.getLikes());
-        postItemsViewHolder.p_month.setText(post.getPost_month());
-        postItemsViewHolder.p_date.setText(post.getPost_date());
-        postItemsViewHolder.p_post.setText(post.getPost_content());
-        postItemsViewHolder.title.setText(post.getTitle());
+        YourPostItemsViewHolder.p_likecount.setText(post.getLikes());
+        YourPostItemsViewHolder.p_month.setText(post.getPost_month());
+        YourPostItemsViewHolder.p_date.setText(post.getPost_date());
+        YourPostItemsViewHolder.p_post.setText(post.getPost_content());
+        YourPostItemsViewHolder.title.setText(post.getTitle());
 
         try {
 
@@ -73,19 +79,51 @@ public class bookmark_adapter extends  RecyclerView.Adapter<bookmark_adapter.Pos
 
                         int count = documentSnapshots.size();
 
-                        postItemsViewHolder.updateLikesCount(count);
+                        YourPostItemsViewHolder.updateLikesCount(count);
                         Log.i("app",String.valueOf(count));
 
                     } else {
-                        postItemsViewHolder.updateLikesCount(0);
+                        YourPostItemsViewHolder.updateLikesCount(0);
+                    }
+
+                }
+            });
+
+            // Check bookmarks icon whether it is filled or not while Displaying
+            likeDatabase.collection("Users/" + mAuth.getUid()+"/PostId's").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (!task.getResult().exists()) {
+                        YourPostItemsViewHolder.bookmark.setImageResource(R.drawable.bookmarknofill); // Changing the bookmark icon when the post is bookmarked
+                    }
+                    else{
+                        YourPostItemsViewHolder.bookmark.setImageResource(R.drawable.bookmarkfill); // Changing the bookmark icon when the post is removed from bookmarks.
+                    }
+                }
+            });
+
+            // Check like icon whether it is filled or not while displaying in Discussions
+            likeDatabase.collection("Posts/" + id + "/Likes").document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                    if (!task.getResult().exists()) {
+
+                        YourPostItemsViewHolder.like_button.setImageResource(R.drawable.like1nofill); // Changing the like icon when the post is liked
+
+                    } else {
+
+                        YourPostItemsViewHolder.like_button.setImageResource(R.drawable.like1fill);
+
                     }
 
                 }
             });
 
 
+
             //When bookmark button is clicked
-            postItemsViewHolder.bookmark.setOnClickListener(new View.OnClickListener() {
+            YourPostItemsViewHolder.bookmark.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Log.i("app",""+mAuth.getUid());
@@ -93,14 +131,15 @@ public class bookmark_adapter extends  RecyclerView.Adapter<bookmark_adapter.Pos
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if (!task.getResult().exists()) {
+                                YourPostItemsViewHolder.bookmark.setImageResource(R.drawable.bookmarkfill); // Changing the bookmark icon when the post is bookmarked
 
                                 Map<String, Object> mark = new HashMap<>();
                                 mark.put("timestamp", FieldValue.serverTimestamp());
 
-
                                 likeDatabase.collection("Users/" + mAuth.getUid() + "/PostId's").document(id).set(mark);
                             }
                             else{
+                                YourPostItemsViewHolder.bookmark.setImageResource(R.drawable.bookmarknofill); // Changing the bookmark icon when the post is removed from bookmarks.
                                 likeDatabase.collection("Users/"+mAuth.getUid()+"/PostId's").document(id).delete();
                             }
                         }
@@ -109,7 +148,7 @@ public class bookmark_adapter extends  RecyclerView.Adapter<bookmark_adapter.Pos
             });
 
             //When like button is clicked
-            postItemsViewHolder.like_button.setOnClickListener(new View.OnClickListener() {
+            YourPostItemsViewHolder.like_button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     likeDatabase.collection("Posts/" + id + "/Likes").document(mAuth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -117,6 +156,8 @@ public class bookmark_adapter extends  RecyclerView.Adapter<bookmark_adapter.Pos
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
 
                             if (!task.getResult().exists()) {
+
+                                YourPostItemsViewHolder.like_button.setImageResource(R.drawable.like1fill); // Changing the like icon when the post is liked
 
                                 Map<String, Object> likesMap = new HashMap<>();
                                 likesMap.put("timestamp", FieldValue.serverTimestamp());
@@ -139,6 +180,8 @@ public class bookmark_adapter extends  RecyclerView.Adapter<bookmark_adapter.Pos
                                 likeDatabase.collection("Posts/" + id + "/Likes").document(mAuth.getUid()).set(likesMap);
 
                             } else {
+
+                                YourPostItemsViewHolder.like_button.setImageResource(R.drawable.like1nofill);
 
                                 db.collection("Posts").document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                     @Override
@@ -165,7 +208,51 @@ public class bookmark_adapter extends  RecyclerView.Adapter<bookmark_adapter.Pos
 
             });
 
-            postItemsViewHolder.title.setOnClickListener(new View.OnClickListener() {
+            YourPostItemsViewHolder.title.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+
+                        Intent intent = new Intent(context,Read_Post.class);
+                        Toast.makeText(context,"name:"+context,Toast.LENGTH_SHORT).show();
+                        intent.putExtra("title",post.getTitle());
+                        intent.putExtra("content",post.getPost_content());
+                        intent.putExtra("day",post.getPost_date());
+                        intent.putExtra("month",post.getPost_month());
+                        intent.putExtra("likes",post.getLikes());
+                        intent.putExtra("pid",post.getPid());
+
+                        Log.i("test2",post.getPost_content());
+                        context.startActivity(intent);
+                    }
+                    catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            YourPostItemsViewHolder.p_date.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+
+                        Intent intent = new Intent(context,Read_Post.class);
+                        intent.putExtra("title",post.getTitle());
+                        intent.putExtra("content",post.getPost_content());
+                        intent.putExtra("day",post.getPost_date());
+                        intent.putExtra("month",post.getPost_month());
+                        intent.putExtra("likes",post.getLikes());
+                        intent.putExtra("pid",post.getPid());
+                        Log.i("test2",post.getPost_content());
+                        context.startActivity(intent);
+                    }
+                    catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            YourPostItemsViewHolder.p_month.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     try {
@@ -187,50 +274,7 @@ public class bookmark_adapter extends  RecyclerView.Adapter<bookmark_adapter.Pos
                 }
             });
 
-            postItemsViewHolder.p_date.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    try {
-
-                        Intent intent = new Intent(context,Read_Post.class);
-                        intent.putExtra("title",post.getTitle());
-                        intent.putExtra("content",post.getPost_content());
-                        intent.putExtra("day",post.getPost_date());
-                        intent.putExtra("month",post.getPost_month());
-                        intent.putExtra("likes",post.getLikes());
-                        intent.putExtra("pid",post.getPid());
-                        Log.i("test2",post.getPost_content());
-                        context.startActivity(intent);
-                    }
-                    catch(Exception e){
-                        e.printStackTrace();
-                    }
-                }
-            });
-
-            postItemsViewHolder.p_month.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    try {
-
-                        Intent intent = new Intent(context,Read_Post.class);
-                        intent.putExtra("title",post.getTitle());
-                        intent.putExtra("content",post.getPost_content());
-                        intent.putExtra("day",post.getPost_date());
-                        intent.putExtra("month",post.getPost_month());
-                        intent.putExtra("likes",post.getLikes());
-                        intent.putExtra("pid",post.getPid());
-
-                        Log.i("test2",post.getPost_content());
-                        context.startActivity(intent);
-                    }
-                    catch(Exception e){
-                        e.printStackTrace();
-                    }
-                }
-            });
-
-            postItemsViewHolder.p_post.setOnClickListener(new View.OnClickListener() {
+            YourPostItemsViewHolder.p_post.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     try {
@@ -256,8 +300,8 @@ public class bookmark_adapter extends  RecyclerView.Adapter<bookmark_adapter.Pos
         catch (Exception e){
             e.printStackTrace();
         }
-
     }
+
 
 
     @Override
@@ -265,12 +309,17 @@ public class bookmark_adapter extends  RecyclerView.Adapter<bookmark_adapter.Pos
         return items.size();
     }
 
-    class PostItemsViewHolder extends RecyclerView.ViewHolder{
+     static class YourPostItemsViewHolder extends RecyclerView.ViewHolder{
         View mView;
-        TextView p_date,p_month,p_post,title;
-        Button like_button,bookmark;
+        static TextView p_date;
+         static TextView p_month;
+         static TextView p_post;
+         static TextView title;
+         static TextView p_likecount;
+        static ImageButton like_button;
+         static ImageButton bookmark;
 
-        PostItemsViewHolder(@NonNull View itemView) {
+        YourPostItemsViewHolder(@NonNull View itemView) {
             super(itemView);
             mView = itemView;
 
@@ -280,11 +329,12 @@ public class bookmark_adapter extends  RecyclerView.Adapter<bookmark_adapter.Pos
             p_date = mView.findViewById(R.id.day);
             p_month = mView.findViewById(R.id.month);
             p_post = mView.findViewById(R.id.problem);
+            p_likecount = mView.findViewById(R.id.like_count);
 
         }
 
-        public void updateLikesCount(int count){
-            like_button.setText(String.valueOf(count));
+        public static void updateLikesCount(int count){
+            p_likecount.setText(String.valueOf(count));
         }
     }
 }
