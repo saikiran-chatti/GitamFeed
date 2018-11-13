@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
@@ -40,9 +40,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".About"></activity>
-        <activity android:name=".BookmarkActivity"></activity>
-        <activity android:name=".MoreInfo"></activity>
+        <activity android:name=".About" />
+        <activity android:name=".BookmarkActivity" />
+        <activity android:name=".MoreInfo" />
+        <activity android:name=".Yourposts"></activity>
     </application>
 
 </manifest>

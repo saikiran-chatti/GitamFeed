@@ -17,11 +17,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -30,7 +33,9 @@ import org.w3c.dom.Text;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class NewPost extends AppCompatActivity {
 
@@ -112,7 +117,9 @@ public class NewPost extends AppCompatActivity {
 
     private void addPost(final String data, final String title_string) {
 
+        final FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final FirebaseFirestore userposts = FirebaseFirestore.getInstance();
 
         final CollectionReference posts = db.collection("Posts");
 
@@ -134,13 +141,28 @@ public class NewPost extends AppCompatActivity {
 
         posts.add(post).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
-            public void onSuccess(DocumentReference documentReference) {
+            public void onSuccess(final DocumentReference documentReference) {
                 Toast.makeText(getApplicationContext(), "Created", Toast.LENGTH_LONG).show();
                 Handler handler = new Handler();
 
                 Log.i("det", documentReference.getId());
 
                 post.setPid(documentReference.getId());
+
+                //Saving the post id in the user's post..(User's record)
+                userposts.collection("Users/"+auth.getUid()+"/posts").document(documentReference.getId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (!task.getResult().exists()){
+
+                            Map<String, Object> mark = new HashMap<>();
+                            mark.put("timestamp", FieldValue.serverTimestamp());
+
+                            userposts.collection("Users/" + auth.getUid() + "/posts").document(documentReference.getId()).set(mark);
+                        }
+                    }
+                });
+
                 documentReference.update("pid", post.getPid());
                 handler.postDelayed(new Runnable() {
                     public void run() {
@@ -152,6 +174,7 @@ public class NewPost extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(getApplicationContext(), "Mingindhi", Toast.LENGTH_SHORT).show();
+
             }
         });
 

@@ -200,6 +200,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
                 break;
             case R.id.nav_slideshow:
+                Intent intent2 = new Intent(this,Yourposts.class);
+                startActivity(intent2);
                 break;
             case R.id.nav_manage:
                 Uri uriUrl = Uri.parse("https://drive.google.com/drive/folders/1t277sx-l3PA4ZCaA6IW53O6Vwxf4QDTG?usp=sharing");

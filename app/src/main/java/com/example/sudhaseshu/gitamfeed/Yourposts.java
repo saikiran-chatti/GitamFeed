@@ -1,13 +1,11 @@
 package com.example.sudhaseshu.gitamfeed;
 
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -17,13 +15,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookmarkActivity extends AppCompatActivity {
+public class Yourposts extends AppCompatActivity {
 
     FirebaseFirestore db;
-    // TODO: Rename and change types of parameters
-
     private FirebaseAuth mAuth;
-    private List<PostItems> bookmarkItemsList;
+    private List<PostItems> yourpostsItemsList;
     PostItemsAdapter adapter;
     private RecyclerView recyclerView;
     private LinearLayoutManager mLayoutManager;
@@ -31,11 +27,11 @@ public class BookmarkActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bookmark);
-        bookmarkItemsList = new ArrayList<>();
+        setContentView(R.layout.activity_yourposts);
+        yourpostsItemsList = new ArrayList<>();
 
         mAuth = FirebaseAuth.getInstance();
-        recyclerView = findViewById(R.id.bookmark_recyclerview);
+        recyclerView = findViewById(R.id.yourposts_recyclerview);
 
         mLayoutManager = new LinearLayoutManager(getApplicationContext());
         mLayoutManager.setReverseLayout(true);
@@ -45,11 +41,11 @@ public class BookmarkActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         Log.i("app","Reacheed Bookmark");
 
-        adapter = new PostItemsAdapter(getApplicationContext(), bookmarkItemsList);
+        adapter = new PostItemsAdapter(getApplicationContext(), yourpostsItemsList);
 
         db = FirebaseFirestore.getInstance();
 
-        db.collection("Users").document(mAuth.getUid()).collection("PostId's").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        db.collection("Users").document(mAuth.getUid()).collection("posts").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot documentSnapshots) {
                 if (!documentSnapshots.isEmpty()) {
@@ -65,10 +61,10 @@ public class BookmarkActivity extends AppCompatActivity {
                                 PostItems p = documentSnapshot.toObject(PostItems.class);
                                 p.setId(documentSnapshot.getId());
                                 Log.i("app",p.getId().toString());
-                                bookmarkItemsList.add(p);
-                                Log.i("app",bookmarkItemsList.size()+" lkfasjdflasdj");
+                                yourpostsItemsList.add(p);
+                                Log.i("app",yourpostsItemsList.size()+" lkfasjdflasdj");
                                 adapter.notifyDataSetChanged();
-                                adapter = new PostItemsAdapter(getApplicationContext(), bookmarkItemsList);
+                                adapter = new PostItemsAdapter(getApplicationContext(), yourpostsItemsList);
                                 recyclerView.setAdapter(adapter);
                             }
                         });
