@@ -1,11 +1,13 @@
 package com.example.sudhaseshu.gitamfeed;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.VideoView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -19,6 +21,12 @@ public class SplashScreen extends AppCompatActivity {
         final FirebaseAuth auth = FirebaseAuth.getInstance();
         View decorView = getWindow().getDecorView();
         decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN| View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+
+        VideoView mVideo = findViewById(R.id.videoView);
+        Uri uri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.splash);
+        mVideo.setVideoURI(uri);
+        mVideo.start();
+
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -37,6 +45,7 @@ public class SplashScreen extends AppCompatActivity {
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 finish();
             }
-        },1500);
+        },2800);
+
     }
 }

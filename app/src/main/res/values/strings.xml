@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GitamFeed</string>
+    <string name="app_name">Gitam Feed</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
@@ -11,10 +11,39 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="navigation_drawer_close">close</string>
     <string name="open">open</string>
-    <string name="text">An outcry poses under the hired laser. Under each projecting nun exercises a polar squad. Within a scenery rattles the beneficial pilot. A choice graces the nonsense on top of the go paradise. The dominant illustrates the incapable motorway across the consumer.</string>
-    <string name="rule">Rules \n 1.Rule 1</string>
+    <string name="text">Description of your problem</string>
+    <string name="rule">Note: \n 1. Be careful with the abbreviations.\n 2. Be aware of your tone.\n 3. A post cannot be edited after posting \n 4. Always double check when using the voice-\n      to-text feature.\n </string>
 
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
+    <string name="app_version">Version 1.0.0</string>
+    <string name="info_icon_description">Info_icon</string>
+    <string name="developers">Developers: Teja, Kiran</string>
+    <string name="content_writers">Content Writers: Rohan, Keerthana</string>
+    <string name="content_about">GITAM feed is the go-to app for all GITAMITES scouting for great news about our sublime campus.This app includes all the spot-on information about the contemporary and upcoming events/fests being organised at our prestigious institution. This app also includes all the materials required by the students.</string>
+    <string name="queries_about">Any queries or suggestions :</string>
+    <string name="email">Email us at jatedevelopers@gmail.com</string>
+    <string name="content_writers_icon">content_writers_icon</string>
+    <string name="developers_icon">developers_icon</string>
+    <string name="ieee_string">Official Website (IEEE)</string>
+    <string name="sign_in_with_google">Sign In with Google</string>
+    <string name="heading">Gitam Feed</string>
+    <string name="description_login">Why this app should be used</string>
+    <string name="feature1">* Provide upto date news</string>
+    <string name="feature2">* User friendly - allows user to \n  \tadd content and make suggestions</string>
+    <string name="feature3">* Can read or post problems you\n  \tgenerally face in GITAM </string>
+    <string name="description2_login">Why enable Cloud sync</string>
+    <string name="feature1_des2">* Avoids wasting time in managing  data</string>
+    <string name="feature2_des2">* Effective backup and restoration</string>
+    <string name="feature3_des2">* Provides Data Security</string>
+    <string name="no_internet_connection">No Internet Connection</string>
+    <string name="try_again">Try Again</string>
+    <string name="title">Title</string>
+    <string name="day">11</string>
+    <string name="time">JULY 21:30</string>
+    <string name="text_cardview">This is how the text in the cardview looks like this text is the data which is stored in firebase and we can modify it.</string>
+    <string name="like">like</string>
+    <string name="bookmark">bookmark</string>
+    <string name="feature4">* Students can access materials</string>
 </resources>

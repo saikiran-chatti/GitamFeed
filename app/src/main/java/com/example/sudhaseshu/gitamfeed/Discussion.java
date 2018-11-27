@@ -2,15 +2,14 @@ package com.example.sudhaseshu.gitamfeed;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,8 +18,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -38,6 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -49,16 +47,10 @@ import java.util.List;
  */
 
 public class Discussion extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private String mTime, mDate, mData;
     private RecyclerView recyclerView;
 
     PostItemsAdapter adapter;
@@ -68,8 +60,7 @@ public class Discussion extends Fragment {
     FirebaseAuth mAuth;
     private OnFragmentInteractionListener mListener;
     FirebaseFirestore db;
-    private LinearLayoutManager mLayoutManager;
-    public SwipeRefreshLayout swipeRefreshLayout ;
+    public SwipeRefreshLayout swipeRefreshLayout;
 
     public Discussion() {
         // Required empty public constructor
@@ -83,7 +74,6 @@ public class Discussion extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment Discussion.
      */
-    // TODO: Rename and change types and number of parameters
     public static Discussion newInstance(String param1, String param2) {
         Discussion fragment = new Discussion();
         Bundle args = new Bundle();
@@ -96,18 +86,20 @@ public class Discussion extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+//        if (getArguments() != null) {
+////            String mParam1 = getArguments().getString(ARG_PARAM1);
+////            String mParam2 = getArguments().getString(ARG_PARAM2);
+////        }
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_discussion, container, false);
+
         swipeRefreshLayout = view.findViewById(R.id.swiperefresh);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -116,7 +108,6 @@ public class Discussion extends Fragment {
                 fetchthedata(0);
             }
         });
-
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -128,7 +119,7 @@ public class Discussion extends Fragment {
         postItemsList = new ArrayList<>();
         recyclerView = view.findViewById(R.id.recycler_view2);
 
-        mLayoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         mLayoutManager.setReverseLayout(true);
         mLayoutManager.setStackFromEnd(true);
 
@@ -144,13 +135,18 @@ public class Discussion extends Fragment {
             @Override
             public void onClick(View view) {
                 //method to call new notepad
-                Intent intent = new Intent(getActivity(), NewPost.class);
-                startActivity(intent);
+                if(haveNetworkConnection()) {
+                    Intent intent = new Intent(getActivity(), NewPost.class);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(getContext(),"Network Required",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
-        //addPost("data");
         displayPosts();
+
 
         return view;
 
@@ -203,7 +199,7 @@ public class Discussion extends Fragment {
 
     }
 
-    private void addPost(String data) {
+    private void addPost(String data) {  // For testing
 
         CollectionReference posts = db.collection("Posts");
 
@@ -227,14 +223,13 @@ public class Discussion extends Fragment {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(getContext(), "Mingindhi", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -273,9 +268,27 @@ public class Discussion extends Fragment {
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
 
+    }
+
+    private boolean haveNetworkConnection() {
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
+
+        ConnectivityManager cm = (ConnectivityManager) Objects.requireNonNull(getContext()).getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert cm != null;
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    haveConnectedMobile = true;
+        }
+        return haveConnectedWifi || haveConnectedMobile;
     }
 
 
@@ -290,7 +303,6 @@ public class Discussion extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

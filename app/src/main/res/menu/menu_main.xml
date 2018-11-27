@@ -5,11 +5,7 @@
     >
 
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/gitam_feed"
-            android:title="Home"
-            android:icon="@drawable/round_home_black_36dp"
-            />
+
         <item
             android:id="@+id/bookmarks"
             android:title="Bookmarks"

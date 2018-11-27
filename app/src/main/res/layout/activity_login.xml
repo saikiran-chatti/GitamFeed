@@ -16,20 +16,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_mono_medium"
-            android:text="Sign In to App"
+            android:text="@string/heading"
             android:textColor="#000000"
-            android:textSize="24dp" />
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/Description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="25dp"
             android:fontFamily="monospace"
-            android:text="Why this app should be used"
+            android:text="@string/description_login"
             android:textAllCaps="false"
             android:textColor="#546e7a"
             android:textSize="14sp"
+            android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/heading" />
 
         <TextView
@@ -38,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="monospace"
-            android:text="* Provide upto date news "
+            android:text="@string/feature1"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@id/Description" />
 
@@ -48,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="monospace"
-            android:text="* User friendly - allows user to\n  add content and make suggestions "
+            android:text="@string/feature2"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@id/feature1" />
 
@@ -58,17 +59,27 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="monospace"
-            android:text="* Why enable Cloud sync "
+            android:text="@string/feature3"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@id/feature2" />
+
+        <TextView
+            android:id="@+id/feature4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="monospace"
+            android:text="@string/feature4"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/feature3" />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dip"
+            android:layout_margin="8dp"
             android:background="@drawable/border_shadow"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@id/feature3" />
+            app:layout_constraintTop_toBottomOf="@id/feature4" />
 
         <TextView
             android:id="@+id/Description2"
@@ -76,9 +87,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:fontFamily="monospace"
-            android:text="Why enable Cloud sync"
+            android:text="@string/description2_login"
             android:textColor="#546e7a"
-            app:layout_constraintTop_toBottomOf="@id/feature3" />
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/feature4" />
 
         <TextView
             android:id="@+id/feature1_cloud"
@@ -86,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="monospace"
-            android:text="* Avoids wasting time in managing\n  data "
+            android:text="@string/feature1_des2"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@id/Description2" />
 
@@ -96,7 +108,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="monospace"
-            android:text="* Effective backup and restoration "
+            android:text="@string/feature2_des2"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@id/feature1_cloud" />
 
@@ -106,7 +118,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fontFamily="monospace"
-            android:text="* Provides Data Security "
+            android:text="@string/feature3_des2"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@id/feature2_cloud" />
     </android.support.constraint.ConstraintLayout>
@@ -129,33 +141,33 @@
         android:id="@+id/website_link"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableStart="@drawable/website"
-        android:textAllCaps="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginEnd="18dp"
         android:layout_marginStart="18dp"
-        android:background="@drawable/button_shape"
+        android:layout_marginEnd="18dp"
         android:layout_marginBottom="20dp"
-        android:textColor="#c0c0c0"
+        android:background="@drawable/button_shape"
+        android:drawableStart="@drawable/website"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
-        android:text="Official Website (IEEE)"/>
+        android:text="@string/ieee_string"
+        android:textAllCaps="false"
+        android:textColor="#c0c0c0"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <Button
         android:id="@+id/google_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableStart="@drawable/gicon2"
-        android:text="Sign In with Google"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:textAllCaps="false"
-        android:background="@drawable/background_shape2"
-        app:layout_constraintBottom_toTopOf="@id/website_link"
+        android:layout_marginStart="18dp"
         android:layout_marginEnd="18dp"
         android:layout_marginBottom="8dp"
+        android:background="@drawable/background_shape2"
+        android:drawableStart="@drawable/gicon2"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:text="@string/sign_in_with_google"
+        android:textAllCaps="false"
         android:textColor="#e1ebf7"
-        android:layout_marginStart="18dp"/>
+        app:layout_constraintBottom_toTopOf="@id/website_link" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline3"

@@ -64,15 +64,17 @@ public class Read_Post extends AppCompatActivity {
                         db.collection("Posts").document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                             @Override
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                PostItems p = documentSnapshot.toObject(PostItems.class);
-                                p.setLikes(String.valueOf(Integer.valueOf(p.getLikes()) + 1));
+                                if (documentSnapshot.exists()) {
+                                    PostItems p = documentSnapshot.toObject(PostItems.class);
+                                    p.setLikes(String.valueOf(Integer.valueOf(p.getLikes()) + 1));
 
-                                db.collection("Posts").document(id).set(p).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Log.i("app", "Liked");
-                                    }
-                                });
+                                    db.collection("Posts").document(id).set(p).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.i("app", "Liked");
+                                        }
+                                    });
+                                }
                             }
                         });
 
@@ -83,15 +85,17 @@ public class Read_Post extends AppCompatActivity {
                         db.collection("Posts").document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                             @Override
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                PostItems p = documentSnapshot.toObject(PostItems.class);
-                                p.setLikes(String.valueOf(Integer.valueOf(p.getLikes()) - 1));
+                                if(documentSnapshot.exists()) {
+                                    PostItems p = documentSnapshot.toObject(PostItems.class);
+                                    p.setLikes(String.valueOf(Integer.valueOf(p.getLikes()) - 1));
 
-                                db.collection("Posts").document(id).set(p).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Log.i("app", "Liked");
-                                    }
-                                });
+                                    db.collection("Posts").document(id).set(p).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.i("app", "Liked");
+                                        }
+                                    });
+                                }
                             }
                         });
                         likeDatabase.collection("Posts/" + id + "/Likes").document(mAuth.getUid()).delete();
@@ -187,9 +191,6 @@ public class Read_Post extends AppCompatActivity {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),Discussion.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(intent);
                 finish();
             }
         });

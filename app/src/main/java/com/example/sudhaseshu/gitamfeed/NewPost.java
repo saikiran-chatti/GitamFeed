@@ -1,17 +1,20 @@
 package com.example.sudhaseshu.gitamfeed;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,14 +30,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import org.w3c.dom.Text;
-
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class NewPost extends AppCompatActivity {
@@ -48,30 +46,35 @@ public class NewPost extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.send_menu) {
-            Date date = new Date();
-            String dayOfTheWeek = (String) DateFormat.format("EEEE", date); // Thursday
-            String day = (String) DateFormat.format("dd", date); // 20
-            String monthString = (String) DateFormat.format("MMM", date); // Jun
-            String monthNumber = (String) DateFormat.format("MM", date); // 06
-            String year = (String) DateFormat.format("yyyy", date); // 2013
+            if (haveNetworkConnection()) {
+                Date date = new Date();
+                String dayOfTheWeek = (String) DateFormat.format("EEEE", date); // Thursday
+                String day = (String) DateFormat.format("dd", date); // 20
+                String monthString = (String) DateFormat.format("MMM", date); // Jun
+                String monthNumber = (String) DateFormat.format("MM", date); // 06
+                String year = (String) DateFormat.format("yyyy", date); // 2013
 
-            TextView mDateDisplay = findViewById(R.id.date);
-            mDateDisplay.setText(monthString + " " + day);
+                TextView mDateDisplay = findViewById(R.id.date);
+                mDateDisplay.setText(monthString + " " + day);
 
 
-            TextView mTimeDisplay = findViewById(R.id.time);
-            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
-            String currentDateTimeString = sdf.format(date);
-            mTimeDisplay.setText(currentDateTimeString);
+                TextView mTimeDisplay = findViewById(R.id.time);
+                SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+                String currentDateTimeString = sdf.format(date);
+                mTimeDisplay.setText(currentDateTimeString);
 
-            EditText content = findViewById(R.id.problem_content);
-            final String content_string = content.getText().toString();
+                EditText content = findViewById(R.id.problem_content);
+                final String content_string = content.getText().toString();
 
-            TextView title = findViewById(R.id.title);
-            String title_string = title.getText().toString();
+                TextView title = findViewById(R.id.title);
+                String title_string = title.getText().toString();
 
-            Log.i("app", content_string);
-            addPost(content_string, title_string);
+                Log.i("app", content_string);
+                addPost(content_string, title_string);
+            }
+            else{
+                Toast.makeText(getApplicationContext(),"Network Required",Toast.LENGTH_SHORT).show();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -80,6 +83,12 @@ public class NewPost extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_post);
+
+        EditText e1 = findViewById(R.id.title);
+        EditText e2 = findViewById(R.id.problem_content);
+
+        e1.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        e2.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
         Toolbar toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
@@ -178,5 +187,22 @@ public class NewPost extends AppCompatActivity {
             }
         });
 
+    }
+    private boolean haveNetworkConnection() {
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
+
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert cm != null;
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    haveConnectedMobile = true;
+        }
+        return haveConnectedWifi || haveConnectedMobile;
     }
 }

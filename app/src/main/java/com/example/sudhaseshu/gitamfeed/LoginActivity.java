@@ -105,6 +105,7 @@ public class LoginActivity extends AppCompatActivity {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()){
                 GoogleSignInAccount account = result.getSignInAccount();
+                assert account != null;
                 firebaseAuthWithGoogle(account);
                 Toast.makeText(getApplicationContext(),"Successfully logged in :)",Toast.LENGTH_SHORT).show();
 
