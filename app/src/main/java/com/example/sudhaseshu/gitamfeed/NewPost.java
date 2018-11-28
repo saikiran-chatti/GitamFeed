@@ -70,7 +70,10 @@ public class NewPost extends AppCompatActivity {
                 String title_string = title.getText().toString();
 
                 Log.i("app", content_string);
-                addPost(content_string, title_string);
+                if(title_string.length() > 0 && title_string.length() <15)
+                    addPost(content_string, title_string);
+                else
+                    Toast.makeText(getApplicationContext(),"Title should have max 15 characters",Toast.LENGTH_SHORT).show();
             }
             else{
                 Toast.makeText(getApplicationContext(),"Network Required",Toast.LENGTH_SHORT).show();

@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/round"
                     android:fontFamily="sans-serif"
-                    android:hint="Title .."
+                    android:hint="Title .. (Max 15 characters)"
                     android:inputType="text"
                     android:textSize="22sp"
                     android:textStyle="bold" />
