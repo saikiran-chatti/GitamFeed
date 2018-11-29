@@ -205,7 +205,7 @@ public class Read_Post extends AppCompatActivity {
                     menuItem.setVisible(true);
                     g_pid = pid;
                 }
-                Toast.makeText(getApplicationContext()," "+verify[0],Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext()," "+verify[0],Toast.LENGTH_SHORT).show();
             }
         });
 

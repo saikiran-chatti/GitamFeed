@@ -70,10 +70,10 @@ public class NewPost extends AppCompatActivity {
                 String title_string = title.getText().toString();
 
                 Log.i("app", content_string);
-                if(title_string.length() > 0 && title_string.length() <15)
+                if(title_string.length() > 0 && content_string.length() > 0)
                     addPost(content_string, title_string);
                 else
-                    Toast.makeText(getApplicationContext(),"Title should have max 15 characters",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Missing title or Content",Toast.LENGTH_SHORT).show();
             }
             else{
                 Toast.makeText(getApplicationContext(),"Network Required",Toast.LENGTH_SHORT).show();
@@ -91,7 +91,6 @@ public class NewPost extends AppCompatActivity {
         EditText e2 = findViewById(R.id.problem_content);
 
         e1.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-        e2.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
         Toolbar toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
