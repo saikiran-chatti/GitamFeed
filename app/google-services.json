@@ -8,18 +8,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:2870034644:android:da175a41fc2dfc1b",
+        "mobilesdk_app_id": "1:2870034644:android:6ab00517b8137d4a",
         "android_client_info": {
-          "package_name": "com.example.sudhaseshu.gitamfeed"
+          "package_name": "com.gfeed.sudhaseshu.gitamfeed"
         }
       },
       "oauth_client": [
         {
-          "client_id": "2870034644-1gblqt9bjsfvcngn99d5fiotio2foo31.apps.googleusercontent.com",
+          "client_id": "2870034644-mbjcp4s52iqc87dd78233d8bl1592mut.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.sudhaseshu.gitamfeed",
-            "certificate_hash": "be26dfc4f922e912bbc1e5fe7b5beb342ce32283"
+            "package_name": "com.gfeed.sudhaseshu.gitamfeed",
+            "certificate_hash": "c2abcec56407bb27f76f10ded52ef3a4105ffbb3"
           }
         },
         {

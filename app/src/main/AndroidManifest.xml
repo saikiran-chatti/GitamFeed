@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.sudhaseshu.gitamfeed">
+    package="com.gfeed.sudhaseshu.gitamfeed">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -13,31 +13,31 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LoginActivity"
+            android:name="com.gfeed.sudhaseshu.gitamfeed.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.gfeed.sudhaseshu.gitamfeed.MainActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".PostPad" />
+        <activity android:name="com.gfeed.sudhaseshu.gitamfeed.PostPad" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
         <activity
-            android:name=".NewPost"
+            android:name="com.gfeed.sudhaseshu.gitamfeed.NewPost"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".Read_Post"
+            android:name="com.gfeed.sudhaseshu.gitamfeed.Read_Post"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SplashScreen"
+            android:name="com.gfeed.sudhaseshu.gitamfeed.SplashScreen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -46,17 +46,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".About"
+        <activity android:name="com.gfeed.sudhaseshu.gitamfeed.About"
             android:label="About"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".BookmarkActivity"
+        <activity android:name="com.gfeed.sudhaseshu.gitamfeed.BookmarkActivity"
             android:label="Bookmarks"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".MoreInfo"
+        <activity android:name="com.gfeed.sudhaseshu.gitamfeed.MoreInfo"
             android:screenOrientation="portrait"/>
-        <activity android:name=".Yourposts"
+        <activity android:name="com.gfeed.sudhaseshu.gitamfeed.Yourposts"
             android:label="Your Posts"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
