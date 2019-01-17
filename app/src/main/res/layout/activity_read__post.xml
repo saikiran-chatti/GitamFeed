@@ -56,7 +56,7 @@
                     android:background="@drawable/round"
                     android:fontFamily="sans-serif"
                     android:hint="Title .."
-                    android:inputType="text"
+                    android:maxLines="4"
                     android:textSize="22sp"
                     android:textStyle="bold" />
 

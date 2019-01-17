@@ -187,6 +187,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
                 startActivity(launchBrowser);
                 break;
+
+            case R.id.logout_nav:
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(this,LoginActivity.class));
+                finish();
+                break;
+
+
             case R.id.about:
                 Intent intent1 = new Intent(this,About.class);
                 startActivity(intent1);

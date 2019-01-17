@@ -22,16 +22,19 @@
 
             <TextView
                 android:id="@+id/Title_problem"
-                android:layout_width="300dp"
+                android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/questrial"
                 android:gravity="left"
+                android:maxWidth="240dp"
                 android:maxLines="1"
                 android:paddingStart="8dp"
                 android:text="@string/title"
                 android:textColor="@color/black"
                 android:textSize="29sp"
+                app:layout_constraintBottom_toTopOf="@+id/day"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView

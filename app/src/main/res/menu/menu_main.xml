@@ -18,6 +18,10 @@
             android:id="@+id/nav_manage"
             android:title="Materials"
             android:icon="@drawable/round_library_books_black_36dp"/>
+        <item
+            android:id="@+id/logout_nav"
+            android:title="LogOut"
+            android:icon="@drawable/logout"/>
     </group>
 
     <item android:title="Gitam Feed">

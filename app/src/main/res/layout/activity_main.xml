@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:openDrawer="start">
+
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/toolbar"
-            android:background="@color/colorPrimary"/>
+            android:background="@color/colorPrimary" />
 
         <android.support.design.widget.TabLayout
-            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            android:id="@+id/tablayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:id="@+id/tablayout">
+            app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         </android.support.design.widget.TabLayout>
 
         <android.support.v4.view.ViewPager
-            app:layout_constraintTop_toBottomOf="@id/tablayout"
+            android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:id="@+id/pager">
+            app:layout_constraintTop_toBottomOf="@id/tablayout">
 
         </android.support.v4.view.ViewPager>
 
@@ -45,10 +45,10 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:menu="@menu/menu_main"
         android:background="@color/white"
+        android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_nav"
-        />
+        app:itemTextColor="@color/black"
+        app:menu="@menu/menu_main" />
 
 </android.support.v4.widget.DrawerLayout>
