@@ -1,6 +1,5 @@
 # GitamFeed
-
-![feature graphic](https://user-images.githubusercontent.com/46348137/51296805-b4cd5f80-1a43-11e9-984d-7da9a9aa1b0e.jpg)
+<p align="center"><img src="https://user-images.githubusercontent.com/46348137/51296898-20173180-1a44-11e9-9bcb-9eca250544b5.jpg" height=500 width=300></p>
 
 This is the code which powers the Material Notes / Scarlet Notes app on Android by Maubis Apps.
 
