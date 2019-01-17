@@ -1,4 +1,7 @@
 # GitamFeed
+
+![feature graphic](https://user-images.githubusercontent.com/46348137/51296805-b4cd5f80-1a43-11e9-984d-7da9a9aa1b0e.jpg)
+
 This is the code which powers the Material Notes / Scarlet Notes app on Android by Maubis Apps.
 
 GITAM feed is the go-to-app for all the gitamite's scouting for great news about our sublime campus.
