@@ -1,7 +1,7 @@
 # GitamFeed
 <p align="center"><img src="https://user-images.githubusercontent.com/46348137/51296898-20173180-1a44-11e9-9bcb-9eca250544b5.jpg" height=500 width=300></p>
 
-This is the code which powers the Material Notes / Scarlet Notes app on Android by Maubis Apps.
+This is the code which powers the Gitam Feed app on Android by JateDevelopers.
 
 GITAM feed is the go-to-app for all the gitamite's scouting for great news about our sublime campus.
 
