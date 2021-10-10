@@ -1,21 +1,45 @@
 {
   "project_info": {
-    "project_number": "Project number",
-    "firebase_url": "Your URL",
-    "project_id": "PROJECT ID",
-    "storage_bucket": "Storage bucket"
+    "project_number": "2870034644",
+    "firebase_url": "https://gitamfeed-fb2d6.firebaseio.com",
+    "project_id": "gitamfeed-fb2d6",
+    "storage_bucket": "gitamfeed-fb2d6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "Mobile SDK",
+        "mobilesdk_app_id": "1:2870034644:android:6ab00517b8137d4a",
         "android_client_info": {
-          "package_name": "Package name"
+          "package_name": "com.gfeed.sudhaseshu.gitamfeed"
         }
       },
       "oauth_client": [
         {
-          "client_id": "Client id",
+          "client_id": "2870034644-3fu45n6jvt5pucmhdfmtnporgvhm9et9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gfeed.sudhaseshu.gitamfeed",
+            "certificate_hash": "cfe5151d35b53b127fb64030d7ab652e78f4f3de"
+          }
+        },
+        {
+          "client_id": "2870034644-3gbr52c3smjjvp44ug7isjo3qhm75kqf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gfeed.sudhaseshu.gitamfeed",
+            "certificate_hash": "c58915919214e01bb2a6662a4fabed0abbd04406"
+          }
+        },
+        {
+          "client_id": "2870034644-cp14uchqspj0v36umfsod2imdgj6fl6s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gfeed.sudhaseshu.gitamfeed",
+            "certificate_hash": "353c3a5adec9618e68d167ad68c722b90860131a"
+          }
+        },
+        {
+          "client_id": "2870034644-mbjcp4s52iqc87dd78233d8bl1592mut.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.gfeed.sudhaseshu.gitamfeed",
@@ -23,30 +47,23 @@
           }
         },
         {
-          "client_id": "Client id",
+          "client_id": "2870034644-sb58g5b11jemongte7047o6a8nguq9sn.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "YOUR API KEY"
+          "current_key": "AIzaSyC6nL3begSuzJP3Yc36SXb96IXGdGBqvZ0"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "Client id",
+              "client_id": "2870034644-sb58g5b11jemongte7047o6a8nguq9sn.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }

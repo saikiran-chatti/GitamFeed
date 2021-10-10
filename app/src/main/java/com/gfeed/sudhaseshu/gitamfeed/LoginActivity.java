@@ -108,6 +108,7 @@ public class LoginActivity extends AppCompatActivity {
 
             }
             else{
+                Log.wtf("app",result.getStatus().toString());
                 Toast.makeText(getApplicationContext(),":(",Toast.LENGTH_SHORT).show();
             }
         }
